@@ -8,47 +8,49 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Groups', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
-        type: Sequelize.STRING,
+      organizerId: {
+        type: Sequelize.INTEGER,
+        references:{model:"Users"}
       },
-      lastName: {
-        type: Sequelize.STRING,
+      name: {
+        type: Sequelize.STRING
       },
-      username: {
-        type: Sequelize.STRING(30),
-        allowNull:false,
-        unique:true,
+      about: {
+        type: Sequelize.TEXT
       },
-      email: {
-        type: Sequelize.STRING,
-        allowNull:false,
-        unique:true
+      type: {
+        type: Sequelize.ENUM('placeholder','placeholder1')
       },
-      hashedPassword: {
-        type: Sequelize.STRING,
-        allowNull:false
+      private: {
+        type: Sequelize.BOOLEAN
+      },
+      city: {
+        type: Sequelize.STRING
+      },
+      state: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue:Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+        defaultValue:Sequelize.literal('CURRENT_TIMESTAMP')
       }
     },options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Users";
+    options.tableName = "Groups";
     await queryInterface.dropTable(options);
   }
 };
