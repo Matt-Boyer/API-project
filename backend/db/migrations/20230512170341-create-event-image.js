@@ -17,7 +17,6 @@ module.exports = {
       },
       eventId: {
         type: Sequelize.INTEGER,
-        defaultValue:null,
         references:{model:'Events'}
       },
       url: {
