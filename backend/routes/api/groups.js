@@ -30,7 +30,12 @@ router.get('/', async (req,res) => {
 })
 
 router.get('/current',requireAuth,async (req, res) => {
-    res.json("test")
+    const userId = req.user.id;
+    let groups = await Group.findAll({
+        where: {
+            organizerId: userId
+        }
+    })
 })
 
 module.exports = router;
