@@ -13,7 +13,7 @@ module.exports = {
       {
         name:'Ballers',
         about: 'We ball 24/7 and do nothing but win',
-        type: 'placeholder',
+        type: 'In-person',
         private: true,
         city:'Vegas',
         state:'NV'
@@ -21,7 +21,7 @@ module.exports = {
       {
         name:'Techs',
         about: 'We do tech stuff',
-        type: 'placeholder1',
+        type: 'Online',
         private: false,
         city:'L.A',
         state:'CA'
@@ -29,7 +29,7 @@ module.exports = {
       {
         name:'Cars',
         about: 'We do car stuff',
-        type: 'placeholder',
+        type: 'In-person',
         private: false,
         city:'Austin',
         state:'TX'
