@@ -38,7 +38,7 @@ module.exports = {
     },options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Events";
+    options.tableName = "EventImages";
     await queryInterface.dropTable(options);
   }
 };

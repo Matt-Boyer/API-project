@@ -13,7 +13,7 @@ module.exports = {
       {
         userId:1,
         groupId:2,
-        status:'Member'
+        status:'Co-host'
       },
       {
         userId:2,
