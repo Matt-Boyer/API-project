@@ -160,7 +160,7 @@ router.post('/', requireAuth, async(req,res) =>   {
 
 router.post('/:groupId/images', requireAuth, async(req, res) =>   {
     const groupId = parseInt(req.params.groupId);
-    const {url, preview} = req.body
+    const {url, preview} = req.body;
     const group = await Group.findByPk(groupId);
     if (!group) {
         res.status(404);
@@ -180,6 +180,30 @@ router.post('/:groupId/images', requireAuth, async(req, res) =>   {
     delete pojo.updatedAt,
     delete pojo.groupId
     res.json(pojo)
+});
+
+router.put('/:groupId', requireAuth, async(req,res) =>  {
+    const {name, about, type, private, city, state} = req.body;
+    const groupId = parseInt(req.params.groupId);
+    let error = validate(name, about, type, private, city, state);
+    if (error)  {
+        res.status(400);
+        res.json(error)
+    }
+    let group = await Group.findByPk(groupId);
+    if (!group) {
+        res.status(404);
+        res.json({message:"Group couldn't be found"})
+    }
+    if (name)   {group.name = name};
+    if (about)  {group.about = about};
+    if (type)   {group.type = type};
+    if (private)    {group.private = private};
+    if (city)   {group.city = city};
+    if (state)  {group.state = state};
+
+    await group.save()
+    res.json(group)
 })
 
 module.exports = router;
