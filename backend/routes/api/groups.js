@@ -94,7 +94,7 @@ router.get('/:groupId', async (req, res) =>    {
         }]
     });
     if (group === null) {
-        res.status = 404
+        res.status(404)
         res.json({message:"Group couldn't be found"})
     }
     const num = await Membership.count({
@@ -103,11 +103,60 @@ router.get('/:groupId', async (req, res) =>    {
         }
     });
     let pojo = group.toJSON();
-    let {id, firstName, lastName} = pojo.Users[0];
+    if (pojo.Users[0])  {
+        let {id, firstName, lastName} = pojo.Users[0];
+        pojo.Organizer = {id,firstName,lastName}
+    }
     delete pojo.Users;
-    pojo.Organizer = {id,firstName,lastName}
     pojo.numMembers = num
     res.json(pojo)
+})
+
+const validate = (name, about, type, private, city, state) => {
+    let error = {};
+    if (name.length > 60)   {
+        error.name = "Name must be 60 characters or less"
+    }
+    if (about < 50)  {
+        error.about = "About must be 50 characters or more"
+    }
+    if (type !== 'Online' && type !== 'In-person')   {
+        error.type = "Type must be 'Online' or 'In-person'"
+    }
+    if (private !== true && private !== false)  {
+        error.private = 'Private must be a boolean'
+    }
+    if (city === ''|| city === null || city === undefined)    {
+        error.city = 'City is required'
+    }
+    if (state === '' || state === null || state === undefined)  {
+        error.state = "State is required"
+    }
+    if (Object.values(error).length > 0)   {
+        return error
+    }
+}
+
+router.post('/', requireAuth, async(req,res) =>   {
+    const organizerId = req.user.id;
+    const {name, about, type, private, city, state} = req.body;
+    const error = validate(name, about, type, private, city, state)
+    const group = await Group.create({
+        organizerId,
+        name,
+        about,
+        type,
+        private,
+        city,
+        state
+    });
+    if (error)  {
+        res.status(400)
+        return res.json(error)
+    }
+    console.log(error)
+    res.status(201);
+    res.json(group)
 })
 
 module.exports = router;
