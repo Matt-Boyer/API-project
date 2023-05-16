@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {requireAuth} = require('../../utils/auth');
-const {Group, Membership, GroupImage,User} = require('../../db/models');
+const {Group, Membership, GroupImage,User,Venue} = require('../../db/models');
 
 router.get('/', async (req,res) => {
     let arr = [];
@@ -73,6 +73,41 @@ router.get('/current',requireAuth,async (req, res) => {
     };
 
     return res.json(result)
+})
+
+router.get('/:groupId', async (req, res) =>    {
+    const groupId = req.params.groupId;
+    const group = await Group.findByPk(groupId,{
+        include: [{
+            model: GroupImage,
+            attributes: {
+                exclude: ['createdAt', 'updatedAt', 'groupId']
+            }
+        },{
+            model: User,
+            attributes: ['id','firstName','lastName'],
+        },{
+            model: Venue,
+            attributes: {
+                exclude: ['createdAt','updatedAt']
+            }
+        }]
+    });
+    if (group === null) {
+        res.status = 404
+        res.json({message:"Group couldn't be found"})
+    }
+    const num = await Membership.count({
+        where: {
+            groupId
+        }
+    });
+    let pojo = group.toJSON();
+    let {id, firstName, lastName} = pojo.Users[0];
+    delete pojo.Users;
+    pojo.Organizer = {id,firstName,lastName}
+    pojo.numMembers = num
+    res.json(pojo)
 })
 
 module.exports = router;
