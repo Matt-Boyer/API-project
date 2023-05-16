@@ -42,15 +42,14 @@ module.exports = {
         lat:245.73632,
         lng:-21.45732457
       }
-    ])
+    ],{})
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    options.tableName = 'Venues';
+    const Op = Sequelize.Op;
+    return await queryInterface.bulkDelete(options, {
+      groupId: {[Op.in]: [1,2,3]}
+    },{})
   }
 };

@@ -154,9 +154,12 @@ router.post('/', requireAuth, async(req,res) =>   {
         res.status(400)
         return res.json(error)
     }
-    console.log(error)
     res.status(201);
     res.json(group)
+});
+
+router.post('/:groupId/images', (req, res) =>   {
+    
 })
 
 module.exports = router;
