@@ -159,8 +159,27 @@ router.post('/', requireAuth, async(req,res) =>   {
 });
 
 router.post('/:groupId/images', requireAuth, async(req, res) =>   {
-    const groupId = req.params.groupId;
-    
+    const groupId = parseInt(req.params.groupId);
+    const {url, preview} = req.body
+    const group = await Group.findByPk(groupId);
+    if (!group) {
+        res.status(404);
+        res.json({message:"Group couldn't be found"})
+    }
+    if (req.user.id !== groupId)    {
+        res.status(403)
+        res.json({message:"Forbidden"})
+    }
+    const image = await GroupImage.create({
+        groupId,
+        url,
+        preview
+    })
+    let pojo = image.toJSON();
+    delete pojo.createdAt,
+    delete pojo.updatedAt,
+    delete pojo.groupId
+    res.json(pojo)
 })
 
 module.exports = router;
