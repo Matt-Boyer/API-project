@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         groupId:2,
-        url:"pic",
+        url:'pic',
         preview:true
       }
     ], {})

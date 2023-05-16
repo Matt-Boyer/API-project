@@ -11,6 +11,7 @@ module.exports = {
     options.tableName = 'Groups';
     return queryInterface.bulkInsert(options, [
       {
+        organizerId:1,
         name:'Ballers',
         about: 'We ball 24/7 and do nothing but win',
         type: 'In-person',
@@ -19,6 +20,7 @@ module.exports = {
         state:'NV'
       },
       {
+        organizerId:2,
         name:'Techs',
         about: 'We do tech stuff',
         type: 'Online',
@@ -27,6 +29,7 @@ module.exports = {
         state:'CA'
       },
       {
+        organizerId:2,
         name:'Cars',
         about: 'We do car stuff',
         type: 'In-person',
