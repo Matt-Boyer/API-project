@@ -12,13 +12,20 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Membership.belongsTo(models.Group, {
-        foreignKey:'groupId'
+        foreignKey:'groupId',
+        onDelete:'CASCADE'
       })
     }
   }
   Membership.init({
-    userId: DataTypes.INTEGER,
-    groupId: DataTypes.INTEGER,
+    userId: {
+      type:DataTypes.INTEGER,
+      onDelete:'CASCADE'
+    },
+    groupId: {
+      type:DataTypes.INTEGER,
+      onDelete:'CASCADE'
+    },
     status: DataTypes.ENUM('Co-host','Member','Pending')
   }, {
     sequelize,
