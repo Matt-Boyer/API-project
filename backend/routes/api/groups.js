@@ -291,7 +291,7 @@ router.post('/:groupId/venues', requireAuth, async(req, res) =>  {
     let error = validateVenue(address, city, state, lat, lng);
     if (error)  {
         res.status(400);
-        res.json(error)
+        return res.json(error)
     }
     const group = await Group.findByPk(groupId,{
         include: [{
@@ -314,8 +314,16 @@ router.post('/:groupId/venues', requireAuth, async(req, res) =>  {
     });
     await venue.save();
     res.json(venue)
+});
+
+router.get('/"groupId/events', async (req, res) =>    {
+    const groupId = parseInt(req.params.groupId);
+    const group = await Group.findByPk(groupId);
+    if (!group)   {
+        res.status(404);
+        return res.json({message:"Group couldn't be found"})
+    };
+    res.json(group)
 })
-
-
 
 module.exports = router;
