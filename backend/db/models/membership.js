@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey:'groupId',
         onDelete:'CASCADE'
       })
+      Membership.belongsTo(models.User,{
+        foreignKey:'userId'
+      })
     }
   }
   Membership.init({
