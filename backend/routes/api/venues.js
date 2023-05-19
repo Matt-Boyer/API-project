@@ -39,6 +39,10 @@ router.put('/:venueId', requireAuth, async (req, res) => {
             exclude:['createdAt','updatedAt']
         }
     });
+    if (!venue)   {
+        res.status(404);
+        return res.json({message:"Venue couldn't be found"})
+    };
     const group = await Group.findByPk(venue.groupId,{
         include: [{
             model: Membership,
@@ -60,7 +64,9 @@ router.put('/:venueId', requireAuth, async (req, res) => {
     if (lat) {venue.lat = lat};
     if (lng) {venue.lng = lng};
     await venue.save()
-    res.json(venue)
+    let pojo = venue.toJSON()
+    delete pojo.updatedAt
+    res.json(pojo)
 })
 
 

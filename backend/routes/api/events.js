@@ -42,7 +42,7 @@ router.get('/', async (req, res) =>    {
     if (type) {where.type = type}
     if (startDate) {where.startDate = startDate}
     if (!page)  {page = 1}
-    if (!size)  {size = 1}
+    if (!size)  {size = 20}
     size = Number(size);
     page = Number(page);
 
@@ -159,6 +159,42 @@ const validateEvent = async (venueId,name,type,capacity,price,description,startD
         return error
     }
 }
+
+router.post('/:eventId/images', requireAuth, async (req,res) => {
+    const {url, preview} = req.body;
+    const eventId = parseInt(req.params.eventId);
+    const userId = req.user.id;
+    const event = await Event.findByPk(eventId)
+    if (!event)   {
+        res.status(404);
+        return res.json({message:"Event couldn't be found"})
+    };
+    const group = await Group.findByPk(event.groupId,{
+        include: [{
+            model: Membership,
+            where: {groupId:event.groupId,userId},
+            required:false
+        }]
+    });
+    const attendee = await Attendance.findOne({
+        where: {
+            userId,
+            eventId
+        }
+    })
+    let {status} = group.Memberships[0] ? group.Memberships[0] : {status:null}
+    if (userId === group.organizerId || status === 'Co-host' || (attendee && attendee.status === 'Attending'))    {
+        let image = await EventImage.create({
+            url,
+            preview
+        })
+        await image.save()
+        let pojo = image.toJSON()
+        delete pojo.createdAt;
+        delete pojo.updatedAt
+        res.json(pojo)
+    }
+})
 
 router.put('/:eventId', requireAuth, async(req,res) =>  {
     const userId = req.user.id;

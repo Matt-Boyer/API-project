@@ -28,7 +28,7 @@ router.get('/', async (req,res) => {
         delete member.GroupImages;
         arr.push(member);
     }
-    return res.json(arr)
+    return res.json({Groups:arr})
 })
 
 router.get('/current',requireAuth,async (req, res) => {
@@ -75,7 +75,7 @@ router.get('/current',requireAuth,async (req, res) => {
         result.push(pojo)
     };
 
-    return res.json(result)
+    return res.json({Groups:result})
 })
 
 router.get('/:groupId', async (req, res) =>    {
@@ -258,7 +258,7 @@ router.get('/:groupId/venues', requireAuth, async (req,res) =>  {
             exclude:['createdAt','updatedAt']
         }
     });
-    return res.json(venues)
+    return res.json({Venues:venues})
 });
 
 const validateVenue = (address, city, state, lat, lng) => {
@@ -358,7 +358,7 @@ router.get('/:groupId/events', async (req, res) =>    {
         delete pojo.EventImages;
         arr.push(pojo)
     }
-    res.json(arr)
+    res.json({Events:arr})
 })
 
 const validateEvent = async (venueId,name,type,capacity,price,description,startDate,endDate) => {
@@ -425,13 +425,13 @@ router.post('/:groupId/events', requireAuth, async(req,res) =>   {
         return res.json(error)
     }
     let event = await Event.create({
-        venueId,name,type,capacity,price,description,startDate,endDate
+        groupId,venueId,name,type,capacity,price,description,startDate,endDate
     });
-    let pojo = await event.save();
-    let pojo1 = pojo.toJSON()
-    delete pojo1.createdAt;
-    delete pojo1.updatedAt
-    res.json(pojo1)
+    await event.save();
+    let pojo = event.toJSON()
+    delete pojo.createdAt;
+    delete pojo.updatedAt
+    res.json(pojo)
 })
 
 router.get('/:groupId/members', async(req,res) =>   {
