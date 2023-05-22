@@ -185,6 +185,7 @@ router.post('/:eventId/images', requireAuth, async (req,res) => {
     let {status} = group.Memberships[0] ? group.Memberships[0] : {status:null}
     if (userId === group.organizerId || status === 'Co-host' || (attendee && attendee.status === 'Attending'))    {
         let image = await EventImage.create({
+            eventId,
             url,
             preview
         })
