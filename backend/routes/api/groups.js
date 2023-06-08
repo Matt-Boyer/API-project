@@ -86,16 +86,20 @@ router.get('/:groupId', async (req, res) =>    {
             attributes: {
                 exclude: ['createdAt', 'updatedAt', 'groupId']
             }
-        },{
+        },
+        {
             model: User,
             attributes: ['id','firstName','lastName'],
-        },{
+        },
+        {
             model: Venue,
             attributes: {
                 exclude: ['createdAt','updatedAt']
             }
         }]
     });
+    // let person = await group.getUser() SUPER HELPFUL!!!!!!!!!!
+    // console.log(person)
     if (group === null) {
         res.status(404)
         return res.json({message:"Group couldn't be found"})
@@ -107,11 +111,12 @@ router.get('/:groupId', async (req, res) =>    {
         }
     });
     let pojo = group.toJSON();
-    if (pojo.Users[0])  {
-        let {id, firstName, lastName} = pojo.Users[0];
+    console.log(pojo)
+    if (pojo.User)  {
+        let {id, firstName, lastName} = pojo.User;
         pojo.Organizer = {id,firstName,lastName}
     }
-    delete pojo.Users;
+    delete pojo.User;
     pojo.numMembers = num + 1
     return res.json(pojo)
 })
@@ -560,7 +565,7 @@ router.delete('/:groupId/membership', requireAuth, async(req,res) =>    {
         res.status(404);
         return res.json({message:"Group couldn't be found"})
     };
-    if (userId !== group.oragnizerId && userId !== req.body.memberId)   {
+    if (userId !== group.organizerId && userId !== req.body.memberId)   {
         res.status(403)
         return res.json({message:'Forbidden'})
     }

@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       Group.hasMany(models.Event, {
         foreignKey:'groupId'
       })
+      Group.belongsTo(models.User,{
+        foreignKey:'organizerId'
+      })
       Group.belongsToMany(models.User,{
         through:models.Membership,
         foreignKey:'groupId',
@@ -24,9 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       })
       Group.hasMany(models.GroupImage,{
         foreignKey:'groupId'
-      })
-      Group.belongsTo(models.User,{
-        foreignKey:'organizerId'
       })
       Group.hasMany(models.Membership,{
         foreignKey:'groupId'
