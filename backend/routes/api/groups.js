@@ -150,6 +150,10 @@ router.post('/', requireAuth, async(req,res) =>   {
     const organizerId = req.user.id;
     const {name, about, type, private, city, state} = req.body;
     const error = validate(name, about, type, private, city, state)
+    if (error)  {
+        res.status(400)
+        return res.json(error)
+    }
     const group = await Group.create({
         organizerId,
         name,
@@ -159,10 +163,6 @@ router.post('/', requireAuth, async(req,res) =>   {
         city,
         state
     });
-    if (error)  {
-        res.status(400)
-        return res.json(error)
-    }
     res.status(201);
     return res.json(group)
 });

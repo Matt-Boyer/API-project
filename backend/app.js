@@ -18,6 +18,8 @@ app.use(express.json());
 
 // Security Middleware
 if (!isProduction) {
+  // console.log('this is environment', environment)
+  // console.log('this is isProduction', isProduction)
     // enable cors only in development
     app.use(cors());
   }
