@@ -24,19 +24,6 @@ function LoginFormModal() {
       });
   };
 
-  // const handleSubmitDemo = (e) => {
-  //   e.preventDefault();
-  //   setErrors({});
-  //   return dispatch(sessionActions.login({ credential:'Demo:lition', password:'password' }))
-  //     .then(closeModal)
-  //     .catch(async (res) => {
-  //       const data = await res.json();
-  //       if (data && data.errors) {
-  //         setErrors(data.errors);
-  //       }
-  //     });
-  // };
-
   let disable = true
   if (credential.length > 3 && password.length > 5) {
     disable = false
