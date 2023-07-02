@@ -24,6 +24,24 @@ function LoginFormModal() {
       });
   };
 
+  // const handleSubmitDemo = (e) => {
+  //   e.preventDefault();
+  //   setErrors({});
+  //   return dispatch(sessionActions.login({ credential:'Demo:lition', password:'password' }))
+  //     .then(closeModal)
+  //     .catch(async (res) => {
+  //       const data = await res.json();
+  //       if (data && data.errors) {
+  //         setErrors(data.errors);
+  //       }
+  //     });
+  // };
+
+  let disable = true
+  if (credential.length > 3 && password.length > 5) {
+    disable = false
+  }
+
   return (
     <>
       <h1>Log In</h1>
@@ -49,7 +67,20 @@ function LoginFormModal() {
         {errors.credential && (
           <p>{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button type="submit" disabled={disable}>Log In</button>
+        <button
+        onClick={(e) => {
+          setErrors({});
+          return dispatch(sessionActions.login({ credential:'Demo-lition', password:'password' }))
+            .then(closeModal)
+            .catch(async (res) => {
+              const data = await res.json();
+              if (data && data.errors) {
+                setErrors(data.errors);
+              }
+            });
+        }}
+        >Demo User</button>
       </form>
     </>
   );

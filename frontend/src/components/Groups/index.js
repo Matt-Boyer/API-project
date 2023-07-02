@@ -14,7 +14,7 @@ export default function Groups () {
     console.log("this is groups",groups)
     if (!Object.values(groups).length)  {return null}
 
-
+    
 
     return (
         <div>

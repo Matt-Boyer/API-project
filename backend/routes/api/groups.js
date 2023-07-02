@@ -382,7 +382,7 @@ const validateEvent = async (venueId,name,type,capacity,price,description,startD
         error.capacity = 'Capacity must be an integer'
     }
     let validPrice = price.toString().split('.')
-    if (Number.isNaN(price) || validPrice[1].length > 2)  {
+    if (Number.isNaN(price) || validPrice[1]?.length > 2)  {
         error.price = "Price is invalid"
     }
     if (description === '' || description === null || description === undefined)    {
@@ -405,6 +405,7 @@ const validateEvent = async (venueId,name,type,capacity,price,description,startD
 }
 
 router.post('/:groupId/events', requireAuth, async(req,res) =>   {
+    console.log('this is req.body', req.body)
     const userId = req.user.id;
     const groupId = parseInt(req.params.groupId);
     const {venueId,name,type,capacity,price,description,startDate,endDate} = req.body;

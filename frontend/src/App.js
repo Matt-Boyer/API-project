@@ -9,6 +9,12 @@ import GroupForm from "./components/GroupForm";
 import GroupDetails from "./components/GroupDetails";
 import LandingPage from "./components/LandingPage";
 import EventsOfGroup from "./components/EventsOfGroup";
+import AllEvents from "./components/AllEvents";
+import EventDetails from "./components/EventDetails";
+import EventForm from "./components/EventForm";
+import GroupEditForm from "./components/GroupEditForm";
+import EventDelete from "./components/EventDelete";
+import GroupDelete from "./components/GroupDelete";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +29,24 @@ function App() {
       {isLoaded && <Switch>
         <Route exact path='/creategroup'>
           <GroupForm />
+        </Route>
+        <Route exact path='/delete/event/:eventId'>
+          <EventDelete />
+        </Route>
+        <Route exact path='/delete/group/:groupId'>
+          <GroupDelete />
+        </Route>
+        <Route exact path='/groups/:groupId/newevent'>
+          <EventForm />
+        </Route>
+        <Route exact path='/groups/edit/:groupId'>
+          <GroupEditForm />
+        </Route>
+        <Route exact path='/eventdetails/:eventId'>
+          <EventDetails />
+        </Route>
+        <Route exact path='/events'>
+          <AllEvents />
         </Route>
         <Route exact path='/groupdetails/:groupId'>
           <GroupDetails />

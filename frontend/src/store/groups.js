@@ -3,8 +3,18 @@ import { csrfFetch } from "./csrf";
 const GET_ALL_GROUPS = 'groups/GET_ALL_GROUPS'
 const CREATE_GROUP = 'group/CREATE_GROUP'
 const GET_DETAILS_GROUP = 'group/GET_DETAILS'
+const EDIT_GROUP = 'group/EDIT_GROUP'
+const DELETE_GROUP = 'groups/DELETE_GROUP'
 
+const deleteGroup = (groupId) => ({
+    type: DELETE_GROUP,
+    groupId
+})
 
+const editGroup = (data) => ({
+    type: EDIT_GROUP,
+    data
+})
 
 const getAllGroups = (data) => ({
     type: GET_ALL_GROUPS,
@@ -21,7 +31,39 @@ const getDetailsGroup = (group) => ({
     group
 })
 
+export const thunkDeleteGroup = (groupId) => async (dispatch) => {
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}`, {
+            method:'DELETE'
+        })
+        if (response.ok)    {
+            const res = await response.json()
+            dispatch(deleteGroup(res))
+            return res
+        }
+    } catch (error) {
+        const err = await error.json()
+        return {errors:err}
+    }
+}
 
+export const thunkEditGroup = (groupId, data) => async (dispatch) => {
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}`, {
+            method:'PUT',
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(data)
+        })
+        if (response.ok)    {
+            const group = await response.json()
+            dispatch(editGroup(group))
+            return group
+        }
+    } catch (error) {
+        const err = await error.json()
+        return {errors:err}
+    }
+}
 
 export const thunkGetDetailsGroup = (groupId) => async (dispatch) => {
     try {
@@ -78,13 +120,25 @@ const groupsReducer = (state = initialStore, action) => {
             });
             return {...newState}
         }
+        case DELETE_GROUP: {
+            const newState = {...state}
+            delete newState.allGroups[action.eventId]
+            return newState
+        }
         case CREATE_GROUP: {
             const newState = {...state}
-            newState.allGroups[action.data.id]=action.data
+            newState.allGroups[action.data.id] = action.data
             return newState
         }
         case GET_DETAILS_GROUP: {
-            return {...state,singleGroup:{...action.group}}
+            const newState = {...state, singleGroup:{}}
+            newState.singleGroup = action.group
+            return newState
+        }
+        case EDIT_GROUP: {
+            const newState = {...state, singleGroup:{}}
+            newState.singleGroup = action.data
+            return newState
         }
         default:
             return state;
