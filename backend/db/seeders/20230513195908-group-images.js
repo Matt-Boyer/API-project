@@ -12,17 +12,17 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         groupId:1,
-        url:'pic',
+        url:'https://images.squarespace-cdn.com/content/v1/58d3c8dd46c3c41b05ec3064/1614436768432-JQ0O4Y1AAIRRHO1I4GYQ/Dark+Ride.jpg?format=2500w',
         preview:true
       },
       {
         groupId:1,
-        url:'pic',
+        url:'https://nationaltoday.com/wp-content/uploads/2020/01/Fun-at-Work-1.jpg',
         preview:false
       },
       {
         groupId:2,
-        url:'pic',
+        url:'https://bullwinkles.com/content/uploads/2023/01/Bullwinkles108_small.jpg',
         preview:true
       }
     ], {})

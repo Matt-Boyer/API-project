@@ -4,13 +4,15 @@ import { useHistory } from "react-router-dom"
 import { useState } from "react"
 import {useSelector} from 'react-redux'
 
+import SignupFormModal from "../SignupFormModal"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
+
 export default function LandingPage () {
     const [hoverlink, setHoverlink] = useState('')
     const [hoverlink1, setHoverlink1] = useState('')
     const [hoverlink2, setHoverlink2] = useState('')
     const history = useHistory()
     const user = useSelector(state => state.session.user)
-
 
     return (
         <div id="main">
@@ -80,10 +82,13 @@ export default function LandingPage () {
             </div>
             <div>
                 <div>
-                    <button>Join Simple React App</button>
+                    <OpenModalMenuItem
+                    itemText={<button>Join Simple React App</button>}
+                    modalComponent={<SignupFormModal />}
+                    ></OpenModalMenuItem>
                 </div>
             </div>
-            {/* <h2>LandingPage</h2>
+            <h2>LandingPage</h2>
             <NavLink exact to='/creategroup'>  --Create Group -- </NavLink>
             <NavLink exact to='/groupdetails/:groupId'>  --Group Details--  </NavLink>
             <NavLink exact to='/events/:groupId'>  --Events of a Group -- </NavLink>
@@ -93,7 +98,7 @@ export default function LandingPage () {
             <NavLink exact to='/groups/:groupId/newevent'> -- Event Form -- </NavLink>
             <NavLink exact to='/groups/edit/:groupId'> -- Group Edit Form -- </NavLink>
             <NavLink exact to='/delete/event/:eventId'> -- Event Delete -- </NavLink>
-            <NavLink exact to='/delete/group/:groupId'> -- Group Delete -- </NavLink> */}
+            <NavLink exact to='/delete/group/:groupId'> -- Group Delete -- </NavLink>
         </div>
     )
 }

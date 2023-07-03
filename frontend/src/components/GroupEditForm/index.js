@@ -24,7 +24,7 @@ export default function GroupEditForm () {
             setErrors(err)
         }
         err()
-    },[])
+    },[groupId])
 
     const onSubmit = async() => {
         let payload = {name,about,type,private:privates,city,state}
@@ -34,9 +34,7 @@ export default function GroupEditForm () {
         }
         console.log('this is error', errors)
     }
-    // if (Object.values(group).length) {
-    //     return null
-    // }
+
     return (
         <div>
             <h2>group edit form</h2>
