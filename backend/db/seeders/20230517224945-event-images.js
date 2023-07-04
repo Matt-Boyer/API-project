@@ -12,28 +12,28 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         eventId:1,
-        url:'https://example.com',
+        url:'https://assets.cyllenius.com/media/gVWCpe0hLXDkYYuk.webp',
         preview:true
       },
       {
         eventId:2,
-        url:'https://example.com',
+        url:'https://eventective-media.azureedge.net/3149776_lg.jpg',
         preview:true
       },
       {
         eventId:3,
-        url:'https://example.com',
+        url:'https://www.eventbrite.co.uk/blog/wp-content/uploads/2022/09/dance-event.jpg',
         preview:true
       },
       {
         eventId:3,
-        url:'https://example.com',
+        url:'https://www.aleitevents.com/wp-content/uploads/2019/02/Zeits-Ocular-100-scaled.jpg',
         preview:false
       },
       {
         eventId:1,
-        url:'https://example.com',
-        preview:false
+        url:'https://www.downtownknoxville.org/lib/image/thumbs/DowntownKnoxvilleEvents_2022_KnoxAsianFestival_10000_512_fill.jpg',
+        preview:true
       }
     ],{})
   },

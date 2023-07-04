@@ -1,0 +1,95 @@
+#maindivdetailssingle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#mainpic {
+    width: 800px;
+    height: 450px;
+}
+
+#mainpicdiv {
+    display: flex;
+    gap: 20px;
+}
+
+.fontweightdetails {
+    font-weight: 300;
+}
+
+#topgaph2details {
+    margin-top: 0px;
+}
+
+#gapfromtopdetailsgroups {
+    margin-top: 55px;
+}
+
+#navlinkforgroupsfromdetails {
+    margin-bottom: 4px;
+    position: relative;
+    right: 457px;
+}
+
+#joingroupdetails {
+    margin-top: auto;
+    margin-bottom: 6px;
+    height: 35px;
+    color: white;
+    background-color: red;
+    box-shadow: 3px 3px 5px black;
+}
+
+#hiddenUser {
+    display: none;
+}
+
+#textindetailsgroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.eventspreviewgroupdetail {
+    display: flex;
+    gap: 13px;
+}
+
+.infonexttopicgroudetails {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+}
+
+.imageforgroupdetailsevent {
+    max-height: 200px;
+    width: 250px;
+}
+
+.timeforgroupsdetailsevent {
+    margin-top: 0px;
+}
+
+#organizertext {
+    margin-bottom: 0px;
+}
+
+#organizername {
+    margin-top: 9px;
+    font-weight: 200;
+}
+
+#whatwereabout {
+    margin-top: 40px;
+    margin-bottom: 0px;
+}
+
+#abouttextgroupdetails {
+    margin-top: 9px;
+    margin-bottom: 35px;
+}
+
+#allupcomingeventsgroudetails {
+    position: relative;
+    right: 250px;
+}

@@ -16,7 +16,7 @@ function OpenModalMenuItem({
   };
 
   return (
-    <div onClick={onClick}>{itemText}</div>
+    <div className='loginisgnuplink' onClick={onClick}>{itemText}</div>
   );
 }
 

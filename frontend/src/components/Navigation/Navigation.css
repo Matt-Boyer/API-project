@@ -3,6 +3,73 @@ ul {
     margin-bottom: 0px;
 }
 
-/* #navdiv {
-    height: 50px;
-} */
+#linebreaknavigation {
+    position: relative;
+    top: 10px;
+    z-index: -2;
+}
+
+#logo {
+    -moz-transform:scale(0.70);
+    -webkit-transform:scale(0.70);
+    transform:scale(0.70);
+    position: relative;
+    right: 50px;
+    top: 8px;
+}
+
+
+#navdiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+#loginlink {
+    cursor: pointer;
+}
+
+#loginisgnuplink {
+    cursor: pointer;
+}
+
+#loginsignup {
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+    padding-right: 20px;
+}
+.profile-dropdown {
+    position: absolute;
+    top: 61px;
+    right: 9px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 8px;
+    border: solid;
+    background-color: white;
+}
+
+#usericon {
+    font-size: 35px;
+}
+
+.hidden {
+    display: none;
+}
+
+#modal-content {
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+#startnewgroup {
+    display: flex;
+    gap: 30px;
+    padding-right: 20px;
+    align-items: center;
+}

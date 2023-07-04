@@ -9,11 +9,11 @@ export default function EventsOfGroup () {
     const dispatch = useDispatch()
     const {groupId} = useParams()
     useEffect(() => {
-        const err = async() => {
+        const errEvents = async() => {
             const error = await dispatch(thunkGetEventsGroup(groupId))
             setErrors(error)
         }
-        err()
+        errEvents()
     },[])
     const event = useSelector(state => state)
     console.log('this is event.groups.Events',errors)

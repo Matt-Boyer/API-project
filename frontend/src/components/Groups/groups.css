@@ -2,23 +2,60 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    top: 27px;
 }
 
 .toptitle {
     display: flex;
 }
 
+.toptitleevents {
+    position: relative;
+    right: 275px;
+}
+
+.toptitlegroups {
+    position: relative;
+    right: 250px;
+}
+
+.toptitleh3 {
+    position: relative;
+    right: 233px;
+}
+
 .groupdiv {
-    border: red solid 1px;
     display: flex;
+    gap: 15px;
+    cursor: pointer;
 }
 
 .imagegroup {
     height: auto;
-    width: 200px;
+    width: 250px;
     height: 200px;
 }
 
 .textgroup {
     display: flex;
+    flex-direction: column;
+}
+
+.groupnametext {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.groupcitytext {
+    margin-top: 17px;
+}
+
+.groupprivatetext {
+    margin-top: auto;
+    margin-bottom: 3px;
+}
+
+.linedivingroup {
+    min-width: 700px;
 }

@@ -83,12 +83,12 @@ export default function LandingPage () {
             <div>
                 <div>
                     <OpenModalMenuItem
-                    itemText={<button>Join Simple React App</button>}
+                    itemText={<button id="joinbutton">Join Simple React App</button>}
                     modalComponent={<SignupFormModal />}
                     ></OpenModalMenuItem>
                 </div>
             </div>
-            <h2>LandingPage</h2>
+            {/* <h2>LandingPage</h2>
             <NavLink exact to='/creategroup'>  --Create Group -- </NavLink>
             <NavLink exact to='/groupdetails/:groupId'>  --Group Details--  </NavLink>
             <NavLink exact to='/events/:groupId'>  --Events of a Group -- </NavLink>
@@ -98,7 +98,7 @@ export default function LandingPage () {
             <NavLink exact to='/groups/:groupId/newevent'> -- Event Form -- </NavLink>
             <NavLink exact to='/groups/edit/:groupId'> -- Group Edit Form -- </NavLink>
             <NavLink exact to='/delete/event/:eventId'> -- Event Delete -- </NavLink>
-            <NavLink exact to='/delete/group/:groupId'> -- Group Delete -- </NavLink>
+            <NavLink exact to='/delete/group/:groupId'> -- Group Delete -- </NavLink> */}
         </div>
     )
 }

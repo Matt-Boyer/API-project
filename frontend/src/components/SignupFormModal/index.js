@@ -48,71 +48,70 @@ function SignupFormModal() {
 
   return (
     <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email:
+      <h1 id="signup">Sign Up</h1>
+      <form id='formsignup' onSubmit={handleSubmit}>
+
           <input
+          placeholder="Email"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
         {errors.email && <p>{errors.email}</p>}
-        <label>
-          Username:
+
           <input
+          placeholder="Username"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </label>
+
         {errors.username && <p>{errors.username}</p>}
-        <label>
-          First Name:
+
           <input
+          placeholder="First Name"
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
-        </label>
+
         {errors.firstName && <p>{errors.firstName}</p>}
-        <label>
-          Last Name:
+
           <input
+            placeholder="Last Name"
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
-        </label>
+
         {errors.lastName && <p>{errors.lastName}</p>}
-        <label>
-          Password:
+
           <input
+            placeholder="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
+
         {errors.password && <p>{errors.password}</p>}
-        <label>
-          Confirm Password:
+
           <input
+          placeholder="Confirm Password"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </label>
+
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
-        <button type="submit" disabled={disable}>Sign Up</button>
+        <button id="signupbotton" type="submit" disabled={disable}>Sign Up</button>
       </form>
     </>
   );
