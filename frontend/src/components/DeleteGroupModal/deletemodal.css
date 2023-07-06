@@ -1,0 +1,13 @@
+#modaldeleteconfirmgroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#confirmdeletemodalgroup {
+    margin-bottom: 0px;
+}
+
+#buttonconfirmdeltetegroup {
+    
+}

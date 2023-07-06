@@ -8,16 +8,30 @@
 
 .toptitle {
     display: flex;
+    position: relative;
 }
 
-.toptitleevents {
+#toptitleevents {
     position: relative;
-    right: 275px;
+    right: 270px;
+    text-decoration: none;
+    font-size: 26px;
+    font-weight: bolder;
+    color: black;
 }
 
-.toptitlegroups {
+#toptitlegroups {
     position: relative;
-    right: 250px;
+    right: 248px;
+    text-decoration: none;
+    font-size: 26px;
+    font-weight: bolder;
+    color: black;
+}
+
+#randomtagfornavlinkgroups a.active {
+    color: teal;
+    text-decoration: underline;
 }
 
 .toptitleh3 {
@@ -57,5 +71,6 @@
 }
 
 .linedivingroup {
-    min-width: 700px;
+    min-width: 800px;
+    max-width: 800px;
 }

@@ -1,0 +1,26 @@
+#textareacreategroup {
+
+}
+
+.errormessagescreategroup {
+    color: red;
+}
+
+#widthforgroupnamecreatgroup {
+    width: 415px;
+}
+
+#creategroupbuttoncreatgroup {
+    height: 50px;
+    margin-bottom: 40px;
+    color: white;
+    background-color: red;
+    box-shadow: 3px 3px 5px black;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#entiredivforcreategroupform {
+    margin-left: 220px;
+    margin-right: 220px;
+}

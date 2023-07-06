@@ -39,6 +39,7 @@
     color: white;
     background-color: red;
     box-shadow: 3px 3px 5px black;
+    cursor: pointer;
 }
 
 #hiddenUser {
@@ -53,6 +54,7 @@
 .eventspreviewgroupdetail {
     display: flex;
     gap: 13px;
+    cursor: pointer;
 }
 
 .infonexttopicgroudetails {
@@ -92,4 +94,19 @@
 #allupcomingeventsgroudetails {
     position: relative;
     right: 250px;
+}
+
+.greybuttonsgroupdetails {
+    color: white;
+    background-color: gray;
+    box-shadow: 3px 3px 5px black;
+    height: 28px;
+    cursor: pointer;
+}
+
+#greybuttondivdetailsgroup {
+    margin-top: auto;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 6px;
 }

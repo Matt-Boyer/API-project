@@ -123,22 +123,25 @@ router.get('/:groupId', async (req, res) =>    {
 
 const validate = (name, about, type, private, city, state) => {
     let error = {};
-    if (name.length > 60)   {
+    if (name ===undefined || name.length > 60)   {
         error.name = "Name must be 60 characters or less"
     }
-    if (about < 50)  {
-        error.about = "About must be 50 characters or more"
+    if (name ===undefined || name.length < 1 ) {
+        error.name = "Name is required"
+    }
+    if (about === undefined || about.length < 30)  {
+        error.about = "Description must be 30 characters or more"
     }
     if (type !== 'Online' && type !== 'In-person')   {
         error.type = "Type must be 'Online' or 'In-person'"
     }
-    if (private !== true && private !== false)  {
-        error.private = 'Private must be a boolean'
+    if (private !== "true" && private !== "false")  {
+        error.private = 'Visibility type is required'
     }
-    if (city === ''|| city === null || city === undefined)    {
+    if (city === undefined || city === ''|| city === null )    {
         error.city = 'City is required'
     }
-    if (state === '' || state === null || state === undefined)  {
+    if (state === undefined ||state === '' || state === null )  {
         error.state = "State is required"
     }
     if (Object.values(error).length > 0)   {
@@ -368,10 +371,10 @@ router.get('/:groupId/events', async (req, res) =>    {
 
 const validateEvent = async (venueId,name,type,capacity,price,description,startDate,endDate) => {
     let error = {};
-    const venue = await Venue.findByPk(venueId)
-    if (!venue)   {
-        error.venue = "Venue does not exist"
-    }
+    // const venue = await Venue.findByPk(venueId)
+    // if (!venue)   {
+    //     error.venue = "Venue does not exist"
+    // }
     if (name.length < 5)  {
         error.name = "Name must be at least 5 characters"
     }
@@ -382,11 +385,14 @@ const validateEvent = async (venueId,name,type,capacity,price,description,startD
         error.capacity = 'Capacity must be an integer'
     }
     let validPrice = price.toString().split('.')
+    if (price.length < 1) {
+        error.price = 'Price is required, it can be 0 if you want it to be free'
+    }
     if (Number.isNaN(price) || validPrice[1]?.length > 2)  {
         error.price = "Price is invalid"
     }
-    if (description === '' || description === null || description === undefined)    {
-        error.description = "Description is required"
+    if (description.length < 30)    {
+        error.description = "Description must be at least 30 characters long"
     }
     let currentDate = new Date();
     // let startDateSplit = startDate.split(' ')
@@ -398,6 +404,12 @@ const validateEvent = async (venueId,name,type,capacity,price,description,startD
     let endDateModified = new Date(endDate)
     if (endDateModified < theirDate) {
         error.endDateModified = "End date is less than start date"
+    }
+    if (startDate.length < 6) {
+        error.startDate = "Start date and time are required"
+    }
+    if (endDate.length < 6) {
+        error.endDate = "End date and time are required"
     }
     if (Object.values(error).length > 0)   {
         return error

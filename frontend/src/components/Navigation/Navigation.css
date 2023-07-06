@@ -34,6 +34,10 @@ ul {
     cursor: pointer;
 }
 
+#profilelogout {
+    cursor: pointer;
+}
+
 #loginsignup {
     display: flex;
     justify-content: flex-start;
@@ -54,6 +58,7 @@ ul {
 
 #usericon {
     font-size: 35px;
+    cursor: pointer;
 }
 
 .hidden {

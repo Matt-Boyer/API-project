@@ -4,12 +4,16 @@ import { useParams } from 'react-router-dom'
 import { thunkGetDetailsGroup } from "../../store/groups"
 import { NavLink } from "react-router-dom"
 import { thunkGetEventsGroup } from "../../store/events"
+import { useHistory } from "react-router-dom"
 import './groupdetail.css'
+import OpenDeleteButton from "../DeleteGroupModal/OpenDeleteModal"
+import DeleteGroupModal from "../DeleteGroupModal"
 
 export default function GroupDetails() {
     const [errors, setErrors] = useState({})
     const [testing, setTesting] = useState('')
     const dispatch = useDispatch()
+    const history = useHistory()
     const { groupId } = useParams()
     const user = useSelector(state => state.session.user)
 
@@ -24,38 +28,55 @@ export default function GroupDetails() {
             setErrors(error)
         }
         errEvents()
-    }, [])
-    //     useEffect(() => {
-    // console.log("this is error",errors)
-    //     },[testing])
+    }, [groupId])
+
     const event = useSelector(state => state.events.allEvents)
     const group = useSelector(state => state.groups.singleGroup)
-    if (!Object.values(event).length || !event) return null
-    if (!Object.values(group).length || !group) return null
+    // if (!Object.values(event).length || !event) return null //commented out might break
+    console.log('thwhwhwthwht',group)
+    if (!group || !Object.values(group).length || group.GroupImages === undefined) return null
     const imageArr = Object.values(group.GroupImages)
+    console.log('immagearr', imageArr)
     const pic = imageArr.find((ele) => {
         return ele.preview === true
     })
     const eventArr = Object.values(event)
-    console.log('organizer',group.Organizer.id)
-    console.log('user', user.id)
+    console.log('this is eventarr', pic)
+    // console.log('organizer',group.Organizer.id)
+    // console.log('user', user.id)
     return (
         <div id='gapfromtopdetailsgroups'>
             <div id="maindivdetailssingle">
                 <NavLink id='navlinkforgroupsfromdetails' exact to='/groups'>{'<'}{'< Groups'}</NavLink>
                 <div id="mainpicdiv">
                     <div>
-                        <img id="mainpic" src={pic ? `${pic.url}` : "https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg"} alt="" />
+                        <img id="mainpic" src={(pic? pic.url:pic) ? `${pic.url}` : "https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg"} alt="no image available" />
                     </div>
                     <div id="textindetailsgroup">
                         <h2 id="topgaph2details">{group.name}</h2>
                         <h4 className="fontweightdetails">{group.city}, {group.state}</h4>
                         <h4 className="fontweightdetails">{eventArr.length} events &#183; {group.private ? "Private" : "Public"}</h4>
                         <h4 className="fontweightdetails">Organized by {group.Organizer.firstName} {group.Organizer.lastName}</h4>
-                        {user.id === group.Organizer.id ?
+                        {(user? user.id : Infinity) !== group.Organizer.id ?
                         <button onClick={(e) => {alert("Feature Coming Soon")}} id={user? "joingroupdetails": 'hiddenUser'}>Join this group</button>
-                        :<div>
-                        <button>Create Event</button>
+                        :<div id="greybuttondivdetailsgroup">
+                        <button className="greybuttonsgroupdetails"
+                        onClick={(e) => {
+                            history.push(`/groups/${groupId}/newevent`)
+                        }}
+                        >Create Event</button>
+                        <button className="greybuttonsgroupdetails"
+                        onClick={(e) => {
+                            history.push(`/groups/edit/${groupId}`)
+                        }}
+                        >Update</button>
+                        {/* <button className="greybuttonsgroupdetails"
+                        >Delete</button> */}
+                        <OpenDeleteButton
+                        buttonText='Delete'
+                        modalComponent={<DeleteGroupModal groupId={groupId}/>}
+                        onClick
+                        />
                         </div>}
                     </div>
                 </div>
@@ -69,6 +90,7 @@ export default function GroupDetails() {
                         <p id="abouttextgroupdetails">{group.about}</p>
                     </div>
                     <div>
+                        {/* {eventArr.length < 1 ? 'emtpy' : "has events"} */}
                         <h2>Upcoming Events: {eventArr.length}</h2>
                         <hr />
                         {eventArr.map((ele) => {
@@ -76,7 +98,11 @@ export default function GroupDetails() {
                             let split = str.split('T')
                             return  <div key={ele.id}>
                             <div >
-                                <div className="eventspreviewgroupdetail">
+                                <div className="eventspreviewgroupdetail"
+                                onClick={(e) => {
+                                    history.push(`/eventdetails/${ele.id}/${ele.Group.id}`)
+                                }}
+                                >
                                     <div>
                                         <img className="imageforgroupdetailsevent" src={ele.previewImage ? `${ele.previewImage}` : "https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg"} alt="" />
                                     </div>

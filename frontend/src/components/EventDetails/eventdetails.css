@@ -1,0 +1,121 @@
+#divholdingeverythingeventsdetailspage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#mainpiceventdetails {
+    width: 800px;
+    height: 450px;
+}
+
+#navlinkandeventnameeventdetails {
+    width: 1170px;
+    margin-top: 47px;
+    margin-bottom: 22px;
+}
+
+#descriptiondiveventdetails{
+    width: 1170px;
+}
+
+#groupprevieweventsdetails {
+    display: flex;
+    gap: 30px;
+}
+
+#groupdetailstoprightdivpreview {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#groupnamegrouppreviewimage {
+    font-size: 30px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#privategroupdprevieweventsdetails {
+    font-size: 25px;
+    font-weight: 300;
+    margin-top: 11px;
+}
+
+#imagegroupeventdetails {
+    width: 200px;
+    height: 125px;
+}
+
+#tooomanydivs {
+    display: flex;
+    gap: 14px;
+}
+
+.fa-clock {
+    font-size: 40px;
+}
+
+#eventdetailsstarttimeendtime {
+    display: flex;
+    gap: 23px;
+}
+
+.timeforeventdetials {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#divholdingclock {
+    display: flex;
+    align-items: center;
+}
+
+.fa-dollar-sign {
+    font-size: 40px;
+    margin-left: 7px;
+}
+
+#divholdingtimeandclock {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+ }
+
+ #divholdingpriceeventdetails {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+ }
+
+ #didntknowicanincreasefontsizehere {
+    font-size: 30px;
+ }
+
+ .fa-map-pin {
+    font-size: 40px;
+    margin-left: 6px;
+ }
+
+ #eventdetailsstarttimeendtimemaindiv {
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+ }
+
+ #divholdingmappinandlocation {
+    display: flex;
+    gap: 31px;
+ }
+
+ #eventtpyeeventdetails {
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+ }
+
+ #imsotiredofcomingupwithnames {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+ }

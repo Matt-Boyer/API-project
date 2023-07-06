@@ -5,6 +5,12 @@ const CREATE_GROUP = 'group/CREATE_GROUP'
 const GET_DETAILS_GROUP = 'group/GET_DETAILS'
 const EDIT_GROUP = 'group/EDIT_GROUP'
 const DELETE_GROUP = 'groups/DELETE_GROUP'
+const ADD_IMAGE = 'groups/ADD_IMAGE'
+
+const addImage = (image) => ({
+    type: ADD_IMAGE,
+    image
+})
 
 const deleteGroup = (groupId) => ({
     type: DELETE_GROUP,
@@ -30,6 +36,24 @@ const getDetailsGroup = (group) => ({
     type: GET_DETAILS_GROUP,
     group
 })
+
+export const thunkAddImage = (image, groupId) => async (dispatch) => {
+    try {
+        const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+            method:'POST',
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(image)
+        })
+        if (response.ok)    {
+            const group = await response.json()
+            dispatch(addImage(group))
+            return group
+        }
+    } catch (error) {
+        const err = await error.json()
+        return {errors:err}
+    }
+}
 
 export const thunkDeleteGroup = (groupId) => async (dispatch) => {
     try {
@@ -61,6 +85,7 @@ export const thunkEditGroup = (groupId, data) => async (dispatch) => {
         }
     } catch (error) {
         const err = await error.json()
+        console.log("thisisthunkerror", err)
         return {errors:err}
     }
 }
@@ -121,7 +146,7 @@ const groupsReducer = (state = initialStore, action) => {
             return {...newState}
         }
         case DELETE_GROUP: {
-            const newState = {...state}
+            const newState = {...state}//try this to reshresh {...state,allGroups:{...state.allGroups}}
             delete newState.allGroups[action.eventId]
             return newState
         }
@@ -131,12 +156,13 @@ const groupsReducer = (state = initialStore, action) => {
             return newState
         }
         case GET_DETAILS_GROUP: {
-            const newState = {...state, singleGroup:{}}
+            const newState = {...state, singleGroup:{...state.singleGroup}}
             newState.singleGroup = action.group
+            console.log('newstatetcase',newState)
             return newState
         }
         case EDIT_GROUP: {
-            const newState = {...state, singleGroup:{}}
+            const newState = {...state, singleGroup:{...state.singleGroup}}
             newState.singleGroup = action.data
             return newState
         }

@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from "react-router-dom"
 import './groups.css'
+import { NavLink } from "react-router-dom"
 
 
 export default function Groups() {
@@ -13,19 +14,25 @@ export default function Groups() {
         dispatch(thunkGetAllGroups())
     }, [dispatch])
 
-    const groups = useSelector(state => Object.values(state.groups.allGroups))
+    const groupsAll = useSelector(state => Object.values(state.groups.allGroups))
     // if (!Object.values(groups).length)  {return null}
+
     return (
         <div>
             <div id="maindiv">
                 <div className="toptitle">
-                    <h2 className="toptitleevents">Events</h2>
-                    <h2 className="toptitlegroups">Groups</h2>
+                    <div id='randomtagfornavlinkevents'>
+                        <NavLink id="toptitleevents" exact to='/events'>Events</NavLink>
+                    </div>
+                    <div id='randomtagfornavlinkgroups'>
+                        <NavLink id="toptitlegroups" exact to='/groups'>Groups</NavLink>
+                    </div>
+
                 </div>
                 <div className="toptitle">
                     <h3 className="toptitleh3">Groups In Simple React App</h3>
                 </div>
-                {groups.map((ele) => {
+                {groupsAll.map((ele) => {
                     return <div key={ele.id} className="linedivingroup">
                         <hr></hr>
                         <div onClick={(e) => {

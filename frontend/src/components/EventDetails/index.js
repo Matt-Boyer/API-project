@@ -1,30 +1,99 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { thunkEventDetails } from "../../store/events"
+import { NavLink } from "react-router-dom"
+import { thunkGetDetailsGroup } from "../../store/groups"
+import './eventdetails.css'
 
-export default function EventDetails () {
+export default function EventDetails() {
     const [errors, setErrors] = useState({})
-    const [testing, setTesting] = useState('')
     const dispatch = useDispatch()
-    const {eventId} = useParams()
+    const { eventId } = useParams()
+    const { groupId } = useParams()
+    const event = useSelector(state => state.events.singleEvent)
+    const group = useSelector(state => state.groups.singleGroup)
+    console.log('ert', group)
     useEffect(() => {
         const err = async () => {
             const err = await dispatch(thunkEventDetails(eventId))
             setErrors(err)
         }
         err()
-    },[])
-    useEffect(() => {
-console.log("this is error",errors)
-    },[testing])
-    const event = useSelector(state => state)
-    console.log('this is event',event)
+        const err1 = async () => {
+            const err = await dispatch(thunkGetDetailsGroup(groupId))
+            setErrors(err)
+        }
+        err1()
+    }, [])
+    // useEffect(() => {
+    //     console.log("this is error", errors)
+    // }, [testing])
+    // console.log('this is event', event)
+
+    if (!Object.values(event).length || !Object.values(group).length) { return null }
+    let str = event.startDate
+    let split = str.split('T')
+    let str1 = event.endDate
+    let split1 = str1.split('T')
     return (
-        <div>
-            <h2>event details</h2>
-            <label>testing</label>
-            <input type="text" value={testing} onChange={(e) => {setTesting(e.target.value)}}></input>
-        </div>
+        <>
+            <div id="divholdingeverythingeventsdetailspage">
+                        <div id="navlinkandeventnameeventdetails">
+                            <NavLink id='navlinkforeventsfromdetails' exact to='/events'>{'<'}{'< Events'}</NavLink>
+                            <h2>{event.name}</h2>
+                            <h4>Group Organizer : {group.Organizer.firstName} {group.Organizer.lastName}</h4>
+                        </div>
+                <div id="groupprevieweventsdetails">
+                    <div>
+                        <img id="mainpiceventdetails" src={event.EventImages.length > 0 ? `${event.EventImages[0].url}` : "https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg"} alt="" />
+                    </div>
+                    <div id="groupprevieweventsdetails">
+                        <div id="groupdetailstoprightdivpreview">
+                            <div id="tooomanydivs">
+                                <div>
+                                    <img id='imagegroupeventdetails' src={(Object.values(group).length ? group.GroupImages.length > 0 : false) ? `${group.GroupImages[0].url}` : "https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg"} alt="preview of group" />
+                                </div>
+                                <div id="imsotiredofcomingupwithnames">
+                                    <h5 id="groupnamegrouppreviewimage">{group.name}</h5>
+                                    <p id="privategroupdprevieweventsdetails">{group.private ? 'Private' : "Public"}</p>
+                                </div>
+                            </div>
+                            <div id="eventdetailsstarttimeendtimemaindiv">
+                                <div id="eventdetailsstarttimeendtime">
+                                    <div id="divholdingclock">
+                                        <i className="fa-sharp fa-regular fa-clock"></i>
+                                    </div>
+                                    <div id="divholdingtimeandclock">
+                                        <h3 className="timeforeventdetials">START {split[0]} &#183; {split[1]}</h3>
+                                        <h3 className="timeforeventdetials">END {split1[0]} &#183; {split1[1]}</h3>
+                                    </div>
+                                </div>
+                                <div id="divholdingpriceeventdetails">
+                                    <div>
+                                        <i className="fa-regular fa-dollar-sign"></i>
+                                    </div>
+                                    <div id="didntknowicanincreasefontsizehere">
+                                        {event ? (event.price === 0 ? 'Free' : event.price.toFixed(2)) : 'Free'}
+                                    </div>
+                                </div>
+                                <div id="divholdingmappinandlocation">
+                                    <div>
+                                        <i className="fa-solid fa-map-pin"></i>
+                                    </div>
+                                    <div id="eventtpyeeventdetails">
+                                        {event.type}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="descriptiondiveventdetails">
+                    <h2>Description</h2>
+                    <p>{event.description}</p>
+                </div>
+            </div>
+        </>
     )
 }

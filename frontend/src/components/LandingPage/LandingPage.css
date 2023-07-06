@@ -60,7 +60,7 @@ p {
 #bottomdiv {
     display: flex;
     gap: 20px;
-    margin-bottom: 13px;
+    margin-bottom: 0px;
 }
 
 .bottomlinkspic {

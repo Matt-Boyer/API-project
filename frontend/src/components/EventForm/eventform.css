@@ -1,0 +1,43 @@
+.priceforeventeventcreate {
+    text-align: end;
+}
+
+#dollarsignineventcreate {
+    position: relative;
+    top: 20px;
+    left: 6px;
+    width: 10px;
+}
+
+.startendcreateventinput {
+    width: 210px;
+}
+
+#bottomdivholdingbuttoncreateevent {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 15px;
+    height: 50px;
+    margin-bottom: 40px;
+    color: white;
+    background-color: red;
+    box-shadow: 3px 3px 5px black;
+    cursor: pointer;
+}
+
+#divholdingeverythingcreateevent {
+    margin-left: 350px;
+    margin-right: 350px;
+}
+
+.allh4tagsaboveinputscreateevent {
+    margin-bottom: 5px;
+}
+
+#priceofeventneedsnegativeduetodollarsignposition {
+    margin-bottom: -11px;
+}
+
+.errormessagescreateevent {
+    color: red;
+}

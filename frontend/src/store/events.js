@@ -5,6 +5,12 @@ const GET_ALL_EVENTS = 'events/GET_ALL_EVENTS'
 const EVENT_DETAILS = 'events/EVENT_DETAILS'
 const CREATE_EVENT = 'events/CREATE_EVENT'
 const DELETE_EVENT = 'events/DELETE_EVENT'
+const ADD_IMAGE_EVENT = 'events/ADD_IMAGE'
+
+const addImageEvent = (eventId) => ({
+    type: ADD_IMAGE_EVENT,
+    eventId
+})
 
 const deleteEvent = (eventId) => ({
     type: DELETE_EVENT,
@@ -30,6 +36,24 @@ const getEventsGroup = (events) => ({
     type: GET_EVENTS_OF_GROUP,
     events
 })
+
+export const thunkAddImageEvent = (image, eventId) => async (dispatch) => {
+    try {
+        const response = await csrfFetch(`/api/events/${eventId}/images`, {
+            method:'POST',
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(image)
+        })
+        if (response.ok)    {
+            const group = await response.json()
+            dispatch(addImageEvent(group))
+            return group
+        }
+    } catch (error) {
+        const err = await error.json()
+        return {errors:err}
+    }
+}
 
 export const thunkDeleteEvent = (eventId) => async (dispatch) => {
     try {
