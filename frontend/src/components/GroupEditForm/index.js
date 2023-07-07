@@ -5,7 +5,7 @@ import { thunkGetDetailsGroup } from "../../store/groups"
 import {useParams} from 'react-router-dom'
 import GroupForm from '../GroupForm'
 import './groupeditform.css'
-import { useHistory } from "react-router-dom"
+import { useHistory, Redirect } from "react-router-dom"
 
 
 export default function GroupEditForm () {
@@ -13,8 +13,7 @@ export default function GroupEditForm () {
     const [name, setName] = useState(group.name)
     const [about, setAbout] = useState(group.about)
     const [type, setType] = useState(group.type)
-    const [privates, setPrivates] = useState(group.private.toString())
-    console.log('privates' , privates)
+    const [privates, setPrivates] = useState((group.private ===undefined? '':group.private.toString()))
     const [city, setCity] = useState(group.city)
     const [state, setState] = useState(group.state)
     const [imageUrl, setImageUrl] = useState(undefined)
@@ -22,6 +21,7 @@ export default function GroupEditForm () {
     const dispatch = useDispatch()
     const history = useHistory()
     const {groupId} = useParams()
+    const user = useSelector(state => state.session.user)
 
     // const data = {name,about,type,private:privates,city,state}
 
@@ -32,12 +32,13 @@ export default function GroupEditForm () {
         }
         err()
     },[groupId])
+    if (((user? user.id : Infinity) !== (group.Organizer ===undefined? -1:group.Organizer.id))) {
+        return <Redirect to='/' />
+    }
 
     const onSubmit = async() => {
         await setErrors({})
-        console.log('should be emtpy',errors)
         let payload = {name,about,type,private:privates,city,state}
-        console.log("this is payload",  payload)
         const err = await dispatch(thunkEditGroup(groupId,payload))
         if (err.errors) {
             await setErrors(err.errors)
@@ -45,7 +46,6 @@ export default function GroupEditForm () {
         if (err.id) {
             history.push(`/groupdetails/${err.id}`)
         }
-        console.log('this is error', errors)
     }
 
     return (

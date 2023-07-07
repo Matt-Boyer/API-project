@@ -15,7 +15,7 @@
     margin-bottom: 22px;
 }
 
-#descriptiondiveventdetails{
+#descriptiondiveventdetails {
     width: 1170px;
 }
 
@@ -80,42 +80,47 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
- }
+}
 
- #divholdingpriceeventdetails {
+#divholdingpriceeventdetails {
     display: flex;
     align-items: center;
     gap: 27px;
- }
+}
 
- #didntknowicanincreasefontsizehere {
+#didntknowicanincreasefontsizehere {
     font-size: 30px;
- }
+}
 
- .fa-map-pin {
+.fa-map-pin {
     font-size: 40px;
     margin-left: 6px;
- }
+}
 
- #eventdetailsstarttimeendtimemaindiv {
+#eventdetailsstarttimeendtimemaindiv {
     display: flex;
     flex-direction: column;
     gap: 21px;
- }
+}
 
- #divholdingmappinandlocation {
+#divholdingmappinandlocation {
     display: flex;
     gap: 31px;
- }
+}
 
- #eventtpyeeventdetails {
+#eventtpyeeventdetails {
     display: flex;
     align-items: center;
     font-size: 30px;
- }
+}
 
- #imsotiredofcomingupwithnames {
+#imsotiredofcomingupwithnames {
     display: flex;
     flex-direction: column;
     justify-content: center;
- }
+}
+
+#divholdingdeleteforeventdetails {
+    margin-left: 63px;
+    margin-top: 6px;
+}

@@ -75,7 +75,7 @@ export default function GroupDetails() {
                         <OpenDeleteButton
                         buttonText='Delete'
                         modalComponent={<DeleteGroupModal groupId={groupId}/>}
-                        onClick
+
                         />
                         </div>}
                     </div>

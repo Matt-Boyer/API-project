@@ -139,14 +139,15 @@ const initialStore = {
 const groupsReducer = (state = initialStore, action) => {
     switch (action.type) {
         case GET_ALL_GROUPS: {
-            let newState = {...state}
+            let newState = {...state, allGroups:{...state.allGroups}}
+            newState.allGroups = {}
             action.data.Groups.forEach(ele => {
                 newState.allGroups[ele.id]= ele
             });
             return {...newState}
         }
         case DELETE_GROUP: {
-            const newState = {...state}//try this to reshresh {...state,allGroups:{...state.allGroups}}
+            const newState = {...state, allGroups:{...state.allGroups}}//try this to reshresh {...state,allGroups:{...state.allGroups}}
             delete newState.allGroups[action.eventId]
             return newState
         }
