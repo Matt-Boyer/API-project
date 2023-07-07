@@ -77,7 +77,7 @@ export default function EventDetails() {
                                         <i className="fa-regular fa-dollar-sign"></i>
                                     </div>
                                     <div id="didntknowicanincreasefontsizehere">
-                                        {event ? (event.price === 0 ? 'Free' : event.price.toFixed(2)) : 'Free'}
+                                        {/* {event ? (event.price === 0 ? 'Free' : event.price.toFixed(2)) : 'Free'} */}
                                     </div>
                                 </div>
                                 <div id="divholdingmappinandlocation">
