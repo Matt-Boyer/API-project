@@ -38,18 +38,18 @@ export default function EventDetails() {
         let split = str.split('T')
         let str1 = event.endDate
         let split1 = str1.split('T')
-        console.log('ert', group)
+        // console.log('ert', group)
         return (
             <>
             <div id="divholdingeverythingeventsdetailspage">
                 <div id="navlinkandeventnameeventdetails">
                     <NavLink id='navlinkforeventsfromdetails' exact to='/events'>{'<'}{'< Events'}</NavLink>
-                    <h2>{event.name}</h2>
+                    <h2 id="titleofeventeventdetails">{event.name}</h2>
                     <h4>Group Organizer : {group.Organizer.firstName} {group.Organizer.lastName}</h4>
                 </div>
                 <div id="groupprevieweventsdetails">
                     <div>
-                        <img id="mainpiceventdetails" src={event.EventImages.length > 0 ? `${event.EventImages[0].url}` : "https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg"} alt="no image available" />
+                        <img id="mainpiceventdetails" src={(event.EventImages.length > 0 ? (event.EventImages[0]) : false)? ((event.EventImages[0].url===null || event.EventImages[0].url==='')?"https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg":`${event.EventImages[0].url}`) : "https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg"} alt="no image available" />
                     </div>
                     <div id="groupprevieweventsdetails">
                         <div id="groupdetailstoprightdivpreview">

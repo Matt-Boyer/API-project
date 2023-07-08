@@ -46,11 +46,13 @@ export const thunkAddImageEvent = (image, eventId) => async (dispatch) => {
         })
         if (response.ok)    {
             const group = await response.json()
+            // console.log('this is response thunk', group)
             dispatch(addImageEvent(group))
             return group
         }
     } catch (error) {
         const err = await error.json()
+        // console.log('this is err from thunk',err)
         return {errors:err}
     }
 }
@@ -72,6 +74,7 @@ export const thunkDeleteEvent = (eventId) => async (dispatch) => {
 }
 
 export const thunkCreateEvent = (groupId,data) => async (dispatch) => {
+    console.log('this is data think', data)
     try {
         const response = await csrfFetch(`/api/groups/${groupId}/events`, {
             method:'POST',
@@ -139,31 +142,34 @@ const initialStore = {
 const eventsReducer = (state = initialStore, action) => {
     switch (action.type) {
         case GET_EVENTS_OF_GROUP: {
-            const newState = {...state, allEvents:{}}
+            const newState = {...state, allEvents:{...state.allEvents}}
+            newState.allEvents ={}
             action.events.Events.forEach(ele => {
                 newState.allEvents[ele.id]=ele
             });
             return newState
         }
         case DELETE_EVENT: {
-            const newState = {...state}
+            const newState = {...state, allEvents:{...state.allEvents}}
             delete newState.allEvents[action.groupId]
             return newState
         }
         case GET_ALL_EVENTS: {
-            const newState = {...state, allEvents:{}}
+            const newState = {...state, allEvents:{...state.allEvents}}
+            newState.allEvents ={}
             action.events.Events.forEach(ele => {
                 newState.allEvents[ele.id]=ele
             });
             return newState
         }
         case EVENT_DETAILS: {
-            const newState = {...state, singleEvent:{}}
+            const newState = {...state, singleEvent:{...state.singleEvent}}///spread in this instead of what i had just empty obj
+            newState.singleEvent ={}///added this reset
             newState.singleEvent = action.event
             return newState
         }
         case CREATE_EVENT: {
-            const newState = {...state}
+            const newState = {...state, allEvents:{...state.allEvents}}
             newState.allEvents[action.data.id] = action.data
             return newState
         }

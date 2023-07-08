@@ -49,10 +49,11 @@ export default function GroupDetails() {
         return new Date(ele.startDate) < currentDate
     })
     eventArr =  eventArr.sort((a,b)=> new Date(a.startDate) - new Date(b.startDate))
+    // console.log('testevent arr',eventArr)
     eventsCopy = eventsCopy.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
 
     return (
-        <div id='gapfromtopdetailsgroups'>
+        // <div id='gapfromtopdetailsgroups'>
             <div id="maindivdetailssingle">
                 <NavLink id='navlinkforgroupsfromdetails' exact to='/groups'>{'<'}{'< Groups'}</NavLink>
                 <div id="mainpicdiv">
@@ -153,6 +154,6 @@ export default function GroupDetails() {
                 </div>
             </div>
 
-        </div>
+        // {/* </div> */}
     )
 }

@@ -111,7 +111,7 @@ router.get('/:groupId', async (req, res) =>    {
         }
     });
     let pojo = group.toJSON();
-    console.log(pojo)
+    // console.log(pojo)
     if (pojo.User)  {
         let {id, firstName, lastName} = pojo.User;
         pojo.Organizer = {id,firstName,lastName}
@@ -403,12 +403,12 @@ const validateEvent = async (venueId,name,type,capacity,price,description,startD
     }
     let endDateModified = new Date(endDate)
     if (endDateModified < theirDate) {
-        error.endDateModified = "End date is less than start date"
+        error.endDate = "End date cannot be before start date"
     }
-    if (startDate.length < 6) {
+    if (startDate.length < 5) {
         error.startDate = "Start date and time are required"
     }
-    if (endDate.length < 6) {
+    if (endDate.length < 5) {
         error.endDate = "End date and time are required"
     }
     if (Object.values(error).length > 0)   {
@@ -417,10 +417,11 @@ const validateEvent = async (venueId,name,type,capacity,price,description,startD
 }
 
 router.post('/:groupId/events', requireAuth, async(req,res) =>   {
-    console.log('this is req.body', req.body)
+    // console.log('this is req.body', req.body)
     const userId = req.user.id;
     const groupId = parseInt(req.params.groupId);
     const {venueId,name,type,capacity,price,description,startDate,endDate} = req.body;
+    console.log('venue id' , venueId, '   namee  ', name)
     let error = await validateEvent(venueId,name,type,capacity,price,description,startDate,endDate);
     const group = await Group.findByPk(groupId,{
         include: [{

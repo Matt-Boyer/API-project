@@ -16,8 +16,8 @@ export default function EventsOfGroup () {
         errEvents()
     },[])
     const event = useSelector(state => state)
-    console.log('this is event.groups.Events',errors)
-    console.log('this is state', event )
+    // console.log('this is event.groups.Events',errors)
+    // console.log('this is state', event )
 
     return (
         <div>

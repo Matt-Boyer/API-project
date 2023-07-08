@@ -85,7 +85,7 @@ export const thunkEditGroup = (groupId, data) => async (dispatch) => {
         }
     } catch (error) {
         const err = await error.json()
-        console.log("thisisthunkerror", err)
+        // console.log("thisisthunkerror", err)
         return {errors:err}
     }
 }
@@ -159,7 +159,7 @@ const groupsReducer = (state = initialStore, action) => {
         case GET_DETAILS_GROUP: {
             const newState = {...state, singleGroup:{...state.singleGroup}}
             newState.singleGroup = action.group
-            console.log('newstatetcase',newState)
+            // console.log('newstatetcase',newState)
             return newState
         }
         case EDIT_GROUP: {

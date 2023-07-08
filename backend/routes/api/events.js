@@ -90,7 +90,7 @@ router.get('/', async (req, res) =>    {
 })
 
 router.get('/:eventId', async (req, res) =>   {
-    console.log('req.body',req.body)
+    // console.log('req.body',req.body)
     const eventId = parseInt(req.params.eventId);
     const event = await Event.findByPk(eventId,{
         attributes: {

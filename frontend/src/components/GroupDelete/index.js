@@ -11,7 +11,7 @@ export default function GroupDelete () {
     const deleteGroup = async() => {
         const err = await dispatch(thunkDeleteGroup(groupId))
         setErrors(err)
-        console.log('this is delete group', err)
+        // console.log('this is delete group', err)
     }
     return (
         <div>

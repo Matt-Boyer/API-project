@@ -2,26 +2,37 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: auto;
+    width: fit-content;
+    padding-left: 60px;
+    padding-right: 60px;
 }
 
 #mainpiceventdetails {
-    width: 800px;
-    height: 450px;
+    max-width: 800px;
+    max-height: 450px;
+    width: 100%;
 }
 
 #navlinkandeventnameeventdetails {
-    width: 1170px;
+    /* width: 1170px; */
     margin-top: 47px;
     margin-bottom: 22px;
+    align-self: flex-start;
 }
 
 #descriptiondiveventdetails {
-    width: 1170px;
+    /* width: 1170px; */
+    align-self: flex-start;
 }
 
 #groupprevieweventsdetails {
     display: flex;
     gap: 30px;
+}
+
+#titleofeventeventdetails {
+    font-size: 35px;
 }
 
 #groupdetailstoprightdivpreview {
@@ -31,13 +42,14 @@
 }
 
 #groupnamegrouppreviewimage {
-    font-size: 30px;
+    font-size: 20px;
     margin-top: 0px;
     margin-bottom: 0px;
+    font-weight: 800;
 }
 
 #privategroupdprevieweventsdetails {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 300;
     margin-top: 11px;
 }
@@ -53,17 +65,19 @@
 }
 
 .fa-clock {
-    font-size: 40px;
+    font-size: 30px;
 }
 
 #eventdetailsstarttimeendtime {
     display: flex;
-    gap: 23px;
+    gap: 15px;
 }
 
 .timeforeventdetials {
     margin-top: 0px;
     margin-bottom: 0px;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 #divholdingclock {
@@ -72,7 +86,7 @@
 }
 
 .fa-dollar-sign {
-    font-size: 40px;
+    font-size: 30px;
     margin-left: 7px;
 }
 
@@ -85,15 +99,15 @@
 #divholdingpriceeventdetails {
     display: flex;
     align-items: center;
-    gap: 27px;
+    gap: 19px;
 }
 
 #didntknowicanincreasefontsizehere {
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .fa-map-pin {
-    font-size: 40px;
+    font-size: 30px;
     margin-left: 6px;
 }
 
@@ -105,13 +119,13 @@
 
 #divholdingmappinandlocation {
     display: flex;
-    gap: 31px;
+    gap: 21px;
 }
 
 #eventtpyeeventdetails {
     display: flex;
     align-items: center;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 #imsotiredofcomingupwithnames {

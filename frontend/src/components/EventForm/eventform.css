@@ -26,8 +26,12 @@
 }
 
 #divholdingeverythingcreateevent {
-    margin-left: 350px;
-    margin-right: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: auto;
+    width: fit-content;
+    min-width: 412px;
 }
 
 .allh4tagsaboveinputscreateevent {
@@ -40,4 +44,8 @@
 
 .errormessagescreateevent {
     color: red;
+}
+
+.hreventforms {
+    width: -webkit-fill-available;
 }
