@@ -82,10 +82,11 @@ export default function LandingPage () {
             </div>
             <div>
                 <div>
+                    {user ? '' :
                     <OpenModalMenuItem
                     itemText={<button id="joinbutton">Join Simple React App</button>}
                     modalComponent={<SignupFormModal />}
-                    ></OpenModalMenuItem>
+                    ></OpenModalMenuItem>}
                 </div>
             </div>
             {/* <h2>LandingPage</h2>

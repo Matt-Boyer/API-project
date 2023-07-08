@@ -58,7 +58,7 @@ function SignupFormModal() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className="errorsforsignup">{errors.email}</p>}
 
           <input
           placeholder="Username"
@@ -68,7 +68,7 @@ function SignupFormModal() {
             required
           />
 
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className="errorsforsignup">{errors.username}</p>}
 
           <input
           placeholder="First Name"
@@ -78,7 +78,7 @@ function SignupFormModal() {
             required
           />
 
-        {errors.firstName && <p>{errors.firstName}</p>}
+        {errors.firstName && <p className="errorsforsignup">{errors.firstName}</p>}
 
           <input
             placeholder="Last Name"
@@ -88,7 +88,7 @@ function SignupFormModal() {
             required
           />
 
-        {errors.lastName && <p>{errors.lastName}</p>}
+        {errors.lastName && <p className="errorsforsignup">{errors.lastName}</p>}
 
           <input
             placeholder="Password"
@@ -98,7 +98,7 @@ function SignupFormModal() {
             required
           />
 
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className="errorsforsignup">{errors.password}</p>}
 
           <input
           placeholder="Confirm Password"
@@ -109,7 +109,7 @@ function SignupFormModal() {
           />
 
         {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
+          <p className="errorsforsignup">{errors.confirmPassword}</p>
         )}
         <button id="signupbotton" type="submit" disabled={disable}>Sign Up</button>
       </form>

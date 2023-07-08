@@ -56,6 +56,24 @@ function ProfileButton({ user }) {
             <div>{user.firstName} {user.lastName}</div>
             <div>{user.email}</div>
             <div>
+            <div>
+            <hr />
+            <div className="menumodallinkstoeventsgroups"
+            onClick={(e) => {
+              closeMenu()
+              history.push('/groups')
+            }}
+            >View All Groups</div>
+            </div>
+            <div>
+            <hr />
+            <div className="menumodallinkstoeventsgroups"
+            onClick={(e) => {
+              closeMenu()
+              history.push('/events')
+            }}
+            >View All Events</div>
+            </div>
               <hr></hr>
               <div id='profilelogout' onClick={logout}>Log Out</div>
             </div>

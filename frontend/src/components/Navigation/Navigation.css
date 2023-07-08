@@ -54,6 +54,7 @@ ul {
     padding: 8px;
     border: solid;
     background-color: white;
+    z-index: 99;
 }
 
 #usericon {
@@ -77,4 +78,8 @@ ul {
     gap: 30px;
     padding-right: 20px;
     align-items: center;
+}
+
+.menumodallinkstoeventsgroups {
+    cursor: pointer;
 }

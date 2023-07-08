@@ -33,17 +33,24 @@ export default function GroupDetails() {
     const event = useSelector(state => state.events.allEvents)
     const group = useSelector(state => state.groups.singleGroup)
     // if (!Object.values(event).length || !event) return null //commented out might break
-    console.log('thwhwhwthwht',group)
+    // console.log('thwhwhwthwht',event)
     if (!group || !Object.values(group).length || group.GroupImages === undefined) return null
     const imageArr = Object.values(group.GroupImages)
-    console.log('immagearr', imageArr)
     const pic = imageArr.find((ele) => {
         return ele.preview === true
     })
-    const eventArr = Object.values(event)
-    console.log('this is eventarr', pic)
-    // console.log('organizer',group.Organizer.id)
-    // console.log('user', user.id)
+    let eventArr = Object.values(event)
+    let eventsCopy = eventArr.slice()
+    let currentDate = new Date();
+    eventArr = eventArr.filter((ele) => {
+        return new Date(ele.startDate) > currentDate
+    })
+    eventsCopy = eventsCopy.filter((ele) => {
+        return new Date(ele.startDate) < currentDate
+    })
+    eventArr =  eventArr.sort((a,b)=> new Date(a.startDate) - new Date(b.startDate))
+    eventsCopy = eventsCopy.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+
     return (
         <div id='gapfromtopdetailsgroups'>
             <div id="maindivdetailssingle">
@@ -90,10 +97,36 @@ export default function GroupDetails() {
                         <p id="abouttextgroupdetails">{group.about}</p>
                     </div>
                     <div>
-                        {/* {eventArr.length < 1 ? 'emtpy' : "has events"} */}
                         <h2>Upcoming Events: {eventArr.length}</h2>
                         <hr />
                         {eventArr.map((ele) => {
+                            let str = ele.startDate
+                            let split = str.split('T')
+                            return  <div key={ele.id}>
+                            <div >
+                                <div className="eventspreviewgroupdetail"
+                                onClick={(e) => {
+                                    history.push(`/eventdetails/${ele.id}/${ele.Group.id}`)
+                                }}
+                                >
+                                    <div>
+                                        <img className="imageforgroupdetailsevent" src={ele.previewImage ? `${ele.previewImage}` : "https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg"} alt="" />
+                                    </div>
+                                    <div className="infonexttopicgroudetails">
+                                        <h3 className="timeforgroupsdetailsevent">{split[0]} &#183; {split[1]}</h3>
+                                        <h2>{ele.name}</h2>
+                                        <h4>{ele.Venue? `${ele.Venue.city}, ${ele.Venue.state}` : "Venue: TBD" }</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            </div>
+                        })}
+                    </div>
+                    <div>
+                    <h2>Past Events: {eventsCopy.length}</h2>
+                        <hr />
+                        {eventsCopy.map((ele) => {
                             let str = ele.startDate
                             let split = str.split('T')
                             return  <div key={ele.id}>
