@@ -4,8 +4,16 @@
     align-items: center;
     margin: auto;
     width: fit-content;
-    padding-left: 60px;
-    padding-right: 60px;
+    /* padding-left: 60px;
+    padding-right: 60px; */
+}
+
+#divnowholdingeverythingaddingbackgroudeventdetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    width: fit-content;
 }
 
 #mainpiceventdetails {
@@ -18,6 +26,10 @@
     /* width: 1170px; */
     margin-top: 47px;
     margin-bottom: 22px;
+    align-self: flex-start;
+}
+
+#extradivtoholdtopstuffeventdetails {
     align-self: flex-start;
 }
 

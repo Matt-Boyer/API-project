@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { thunkAddImage, thunkCreateGroup } from "../../store/groups"
 import { useHistory } from "react-router-dom"
@@ -22,11 +22,25 @@ export default function GroupForm() {
         if (err.errors) {
             await setErrors(err.errors)
         }
-        const err1 = await dispatch(thunkAddImage({'url':imageUrl, 'preview':true}, err.id))
+        const err1 = await dispatch(thunkAddImage({ 'url': imageUrl, 'preview': true }, err.id))
         if (err.id) {
             history.push(`/groupdetails/${err.id}`)
         }
     }
+
+    const testRef = useRef();
+    useEffect(() => {
+        if (testRef.current !== undefined)
+            if (errors.city) {
+                testRef.current.focus();
+            }
+            if (errors.state) {
+                testRef.current.focus();
+            }
+            if (errors.name) {
+                testRef.current.focus();
+            }
+    }, [errors]);
 
     return (
         <div id="entiredivforcreategroupform">
@@ -40,6 +54,7 @@ export default function GroupForm() {
                 <h4>Meetup groups meet locally, in person and online. We'll connect you with people</h4>
                 <h4>in your area, and more can join you online.</h4>
                 <input type="text"
+                    ref={testRef}
                     placeholder="City"
                     value={city}
                     onChange={(e) => {
@@ -48,6 +63,7 @@ export default function GroupForm() {
                 ></input>
                 <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.city : ''}</div>
                 <input type="text"
+                    ref={testRef}
                     placeholder="State"
                     value={state}
                     onChange={(e) => {
@@ -62,6 +78,7 @@ export default function GroupForm() {
                 <h4>Choose a name that will give people a clear idea of what the group is about. </h4>
                 <h4>Feel free to get creative! You can edit this later if you change your mind.</h4>
                 <input type="text"
+                ref={testRef}
                     id="widthforgroupnamecreatgroup"
                     placeholder="What is your group name?"
                     value={name}
@@ -69,7 +86,7 @@ export default function GroupForm() {
                         setName(e.target.value)
                     }}
                 ></input>
-                 <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.name : ''}</div>
+                <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.name : ''}</div>
                 <hr />
                 <h2>Now describe what your group will be about</h2>
                 <h4>People will see this when we promote your group, but you'll be able to add to it later, too.</h4>
@@ -86,7 +103,7 @@ export default function GroupForm() {
                         setAbout(e.target.value)
                     }}
                 ></textarea>
-                <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.about: ''}</div>
+                <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.about : ''}</div>
                 <hr />
                 <h2>Final steps...</h2>
                 <h4>Is this an in person or online group?</h4>
@@ -132,7 +149,7 @@ export default function GroupForm() {
                 ></input>
                 <hr />
                 <button
-                id="creategroupbuttoncreatgroup"
+                    id="creategroupbuttoncreatgroup"
                     onClick={(e) => {
                         onSubmit()
                     }}

@@ -26,7 +26,7 @@ export default function LandingPage () {
             <div id="maintopdiv">
                 <div className="titleandpic">
                     <h1>The Simple Platform- Where Interests Make Aquaintences</h1>
-                    <p>Do you want to meet completely stranger like you parents told you not to do? Well then this is the place to do it! At "Simple React App" we strive to connect people's hobbies to other random internet users. Our lawyer told us to tell you to use this at your own risk but we think there is a good chance you'll be ok. Maybe not, but hopefully.</p>
+                    <p id="smallerscreendisappear">Do you want to meet completely stranger like you parents told you not to do? Well then this is the place to do it! At "Simple React App" we strive to connect people's hobbies to other random internet users. Our lawyer told us to tell you to use this at your own risk but we think there is a good chance you'll be ok. Maybe not, but hopefully.</p>
                 </div>
                 <div className="titleandpic">
                     <img id="maintopimage" src="https://ichef.bbci.co.uk/news/976/cpsprodpb/C70E/production/_102885905_82fe951a-0f71-469f-a76c-086ca2c37696.jpg" alt="people holding phones infront of their faces" />

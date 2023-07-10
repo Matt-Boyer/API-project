@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react"
+import { useState,useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { thunkCreateGroup, thunkEditGroup } from "../../store/groups"
 import { thunkGetDetailsGroup } from "../../store/groups"
@@ -23,6 +23,21 @@ export default function GroupEditForm () {
     const {groupId} = useParams()
     const user = useSelector(state => state.session.user)
 
+    const testRef = useRef();
+    useEffect(() => {
+        if (testRef.current !== undefined)  {
+            if (errors.city)   {
+                testRef.current.focus();
+            }
+            if (errors.state)   {
+                testRef.current.focus();
+            }
+            if (errors.name)   {
+                testRef.current.focus();
+            }
+        }
+    }, [errors]);
+
     // const data = {name,about,type,private:privates,city,state}
 
     useEffect(() => {
@@ -32,9 +47,10 @@ export default function GroupEditForm () {
         }
         err()
     },[groupId])
-    if (((user? user.id : Infinity) !== (group.Organizer ===undefined? -1:group.Organizer.id))) {
-        return <Redirect to='/' />
-    }
+    console.log('this is user',(group.Organizer ===undefined? -1:group.Organizer.id))
+    // if (((user? user.id : Infinity) !== (group.Organizer ===undefined? -1:group.Organizer.id))) {
+    //     return <Redirect to='/' />
+    // }
 
     const onSubmit = async() => {
         await setErrors({})
@@ -42,6 +58,7 @@ export default function GroupEditForm () {
         const err = await dispatch(thunkEditGroup(groupId,payload))
         if (err.errors) {
             await setErrors(err.errors)
+
         }
         if (err.id) {
             history.push(`/groupdetails/${err.id}`)
@@ -61,21 +78,24 @@ export default function GroupEditForm () {
                 <h4>Meetup groups meet locally, in person and online. We'll connect you with people</h4>
                 <h4>in your area, and more can join you online.</h4>
                 <input type="text"
+                    ref={testRef}
                     placeholder="City"
                     value={city}
                     onChange={(e) => {
                         setCity(e.target.value)
                     }}
-                ></input>
+                    ></input>
+
                 <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.city : ''}</div>
                 <input type="text"
+                    ref={testRef}
                     placeholder="State"
                     value={state}
                     onChange={(e) => {
                         setState(e.target.value)
                     }}
                 ></input>
-                <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.state : ''}</div>
+                <div id="testforfocuserror" className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.state : ''}</div>
             </div>
             <hr />
             <div>
@@ -83,6 +103,7 @@ export default function GroupEditForm () {
                 <h4>Choose a name that will give people a clear idea of what the group is about. </h4>
                 <h4>Feel free to get creative! You can edit this later if you change your mind.</h4>
                 <input type="text"
+                    ref={testRef}
                     id="widthforgroupnamecreatgroup"
                     placeholder="What is your group name?"
                     value={name}
