@@ -1,6 +1,6 @@
 import { useState,useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { thunkCreateGroup, thunkEditGroup } from "../../store/groups"
+import { thunkAddImage, thunkCreateGroup, thunkDeleteImage, thunkEditGroup } from "../../store/groups"
 import { thunkGetDetailsGroup } from "../../store/groups"
 import {useParams} from 'react-router-dom'
 import GroupForm from '../GroupForm'
@@ -10,13 +10,14 @@ import { useHistory, Redirect } from "react-router-dom"
 
 export default function GroupEditForm () {
     const group = useSelector(state => state.groups.singleGroup)
-    const [name, setName] = useState(group.name)
-    const [about, setAbout] = useState(group.about)
-    const [type, setType] = useState(group.type)
-    const [privates, setPrivates] = useState((group.private ===undefined? '':group.private.toString()))
-    const [city, setCity] = useState(group.city)
-    const [state, setState] = useState(group.state)
+    const [name, setName] = useState('')
+    const [about, setAbout] = useState('')
+    const [type, setType] = useState('')
+    const [privates, setPrivates] = useState('')
+    const [city, setCity] = useState('')
+    const [state, setState] = useState('')
     const [imageUrl, setImageUrl] = useState(undefined)
+    const [image, setImage] = useState(null);
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch()
     const history = useHistory()
@@ -38,24 +39,58 @@ export default function GroupEditForm () {
         }
     }, [errors]);
 
-    // const data = {name,about,type,private:privates,city,state}
+    useEffect(() => {
+            dispatch(thunkGetDetailsGroup(groupId))
+            // setErrors(err)
+    },[])
 
     useEffect(() => {
-        const err = async () => {
-            const err = await dispatch(thunkGetDetailsGroup(groupId))
-            // setErrors(err)
+        if (group.name) { // Check if group data is available
+            setCity(group.city ? group.city : ''); // Set initial values based on group data
+            setState(group.state ? group.state : '');
+            setName(group.name ? group.name : '');
+            setAbout(group.about ? group.about : '');
+            setType(group.type ? group.type : '');
+            setPrivates(group.private ===undefined? '':group.private.toString())
         }
-        err()
-    },[groupId])
-    console.log('this is user',(group.Organizer ===undefined? -1:group.Organizer.id))
+    }, [group]);
+    // (group.private ===undefined? '':group.private.toString())
+    // console.log('this is user',(group.Organizer ===undefined? -1:group.Organizer.id))
     // if (((user? user.id : Infinity) !== (group.Organizer ===undefined? -1:group.Organizer.id))) {
     //     return <Redirect to='/' />
     // }
+
+    const updateFile = e => {
+        const file = e.target.files[0];
+        if (file) setImage(file);
+      };
+
+    //   if (Object.values(group).length === 0 || group === undefined || group === null) {
+    //     return null
+    // }
+
+    const imageArr = group && group.GroupImages ? Object.values(group.GroupImages) : [];
+
+    const pic = imageArr.find((ele) => {
+        return ele.preview === true
+    })
+    let fileImg = pic?.url?.split('/').slice(4).join("/")
 
     const onSubmit = async() => {
         await setErrors({})
         let payload = {name,about,type,private:privates,city,state}
         const err = await dispatch(thunkEditGroup(groupId,payload))
+        if (group.GroupImages.length > 0 && image !== null && group.GroupImages[0]?.url !== null) {
+            await dispatch(thunkDeleteImage(group.GroupImages[0].id))
+            const err1 = await dispatch(thunkAddImage( image , err.id, fileImg))
+        }
+        if (group.GroupImages[0]?.url === null && image !== null) {
+             await dispatch(thunkDeleteImage(group.GroupImages[0].id))
+            const err1 = await dispatch(thunkAddImage( image , err.id, fileImg='null'))
+        }
+        if (group.GroupImages.length === 0 && image !== null) {
+            const err1 = await dispatch(thunkAddImage( image , err.id, fileImg='null'))
+        }
         if (err.errors) {
             await setErrors(err.errors)
 
@@ -165,12 +200,10 @@ export default function GroupEditForm () {
                 </select>
                 <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.private : ''}</div>
                 <h4>Please add an image url for your group below:</h4>
-                <input type="url"
+                <input type="file"
                     placeholder="Image Url"
-                    value={imageUrl}
-                    onChange={(e) => {
-                        setImageUrl(e.target.value)
-                    }}
+                    // value={imageUrl}
+                    onChange={updateFile}
                 ></input>
                 <hr />
                 <button

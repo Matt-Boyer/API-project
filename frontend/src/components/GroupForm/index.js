@@ -12,6 +12,7 @@ export default function GroupForm() {
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
     const [imageUrl, setImageUrl] = useState(undefined)
+    const [image, setImage] = useState(null);
     const [errors, setErrors] = useState({})
     const history = useHistory()
     const dispatch = useDispatch()
@@ -22,11 +23,17 @@ export default function GroupForm() {
         if (err.errors) {
             await setErrors(err.errors)
         }
-        const err1 = await dispatch(thunkAddImage({ 'url': imageUrl, 'preview': true }, err.id))
+        // console.log('-----------------',image)
+        const err1 = await dispatch(thunkAddImage( image , err.id))
         if (err.id) {
             history.push(`/groupdetails/${err.id}`)
         }
     }
+
+    const updateFile = e => {
+        const file = e.target.files[0];
+        if (file) setImage(file);
+      };
 
     const testRef = useRef();
     useEffect(() => {
@@ -140,12 +147,10 @@ export default function GroupForm() {
                 </select>
                 <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.private : ''}</div>
                 <h4>Please add an image url for your group below:</h4>
-                <input type="url"
+                <input type="file"
                     placeholder="Image Url"
-                    value={imageUrl}
-                    onChange={(e) => {
-                        setImageUrl(e.target.value)
-                    }}
+                    // value={imageUrl}
+                    onChange={updateFile}
                 ></input>
                 <hr />
                 <button
@@ -153,7 +158,7 @@ export default function GroupForm() {
                     onClick={(e) => {
                         onSubmit()
                     }}
-                >Create group</button>
+                >Create Group</button>
             </div>
         </div>
     )

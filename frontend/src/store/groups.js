@@ -6,6 +6,12 @@ const GET_DETAILS_GROUP = 'group/GET_DETAILS'
 const EDIT_GROUP = 'group/EDIT_GROUP'
 const DELETE_GROUP = 'groups/DELETE_GROUP'
 const ADD_IMAGE = 'groups/ADD_IMAGE'
+const DELETE_IMAGE = 'groups/DELETE_IMAGE'
+
+const deleteImage = (imageId) => ({
+    type: DELETE_IMAGE,
+    imageId
+})
 
 const addImage = (image) => ({
     type: ADD_IMAGE,
@@ -37,12 +43,39 @@ const getDetailsGroup = (group) => ({
     group
 })
 
-export const thunkAddImage = (image, groupId) => async (dispatch) => {
+export const thunkDeleteImage = (imageId) => async (dispatch) => {
     try {
-        const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+        const response = await csrfFetch(`/api/group-images/${imageId}`, {
+            method:'DELETE',
+            // headers: {
+            //     "Content-Type": "application/json",
+            //     "FileImg":`${fileImg}`
+            // },
+        })
+        if (response.ok)    {
+            const res = await response.json()
+            await dispatch(deleteImage(res))
+            // dispatch(getAllGroups())
+            return res
+        }
+    } catch (error) {
+        const err = await error.json()
+        return {errors:err}
+    }
+}
+
+export const thunkAddImage = (image, groupId, fileImg) => async (dispatch) => {
+    console.log('---fileimg---',fileImg)
+    try {
+        const formData = new FormData();
+        if (image) formData.append("image", image);
+        const response = await csrfFetch(`/api/groups/${groupId}/images/${fileImg}`, {
             method:'POST',
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify(image)
+            // headers: {
+            //     "Content-Type": "application/json",
+            //     "FileImg":`${fileImg}`
+            // },
+            body: formData
         })
         if (response.ok)    {
             const group = await response.json()
@@ -55,14 +88,19 @@ export const thunkAddImage = (image, groupId) => async (dispatch) => {
     }
 }
 
-export const thunkDeleteGroup = (groupId) => async (dispatch) => {
+export const thunkDeleteGroup = (groupId, fileImg) => async (dispatch) => {
     try {
         const response = await csrfFetch(`/api/groups/${groupId}`, {
-            method:'DELETE'
+            method:'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                "FileImg":`${fileImg}`
+            },
         })
         if (response.ok)    {
             const res = await response.json()
-            dispatch(deleteGroup(res))
+            await dispatch(deleteGroup(res))
+            // dispatch(getAllGroups())
             return res
         }
     } catch (error) {
@@ -148,7 +186,7 @@ const groupsReducer = (state = initialStore, action) => {
         }
         case DELETE_GROUP: {
             const newState = {...state, allGroups:{...state.allGroups}}//try this to reshresh {...state,allGroups:{...state.allGroups}}
-            delete newState.allGroups[action.eventId]
+            delete newState.allGroups[action.groupId.message]
             return newState
         }
         case CREATE_GROUP: {

@@ -14,11 +14,7 @@ export default function LandingPage () {
     const history = useHistory()
     const user = useSelector(state => state.session.user)
 
-    //!!!!!!!NEED TO FIX CURRENT DAY TO TIME SO CAN MAKE AN EVENT ON SAME DAY fixed
-    //!!!!!!!when creating event added image doesnt show  ---- fixed
-    //!!!!!!create event if end date is before start date no error shows ---- fixed
-    //!!!!!!when delete event it take you groupdetails page but you need to refresh to show the delete show up. it initially shows that it wasnt deleted unitl refresh --- fixed
-    //!!!!!!when creating event the city state defaults to las vegas when in all events page. should be city state of that group ---- fixed
+   //!!!!!!!ned errors on forms to disappear as im typing
     //!!!!!!pagination in all events stops from seeing more than 10 need to add page links
 
     return (

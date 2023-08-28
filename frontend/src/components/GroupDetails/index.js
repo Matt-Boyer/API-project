@@ -36,9 +36,12 @@ export default function GroupDetails() {
     // console.log('thwhwhwthwht',event)
     if (!group || !Object.values(group).length || group.GroupImages === undefined) return null
     const imageArr = Object.values(group.GroupImages)
+
     const pic = imageArr.find((ele) => {
         return ele.preview === true
     })
+    let picSplit = pic?.url?.split('/').slice(3).join("/")
+
     let eventArr = Object.values(event)
     let eventsCopy = eventArr.slice()
     let currentDate = new Date();
@@ -82,7 +85,7 @@ export default function GroupDetails() {
                         >Delete</button> */}
                         <OpenDeleteButton
                         buttonText='Delete'
-                        modalComponent={<DeleteGroupModal groupId={groupId}/>}
+                        modalComponent={<DeleteGroupModal groupId={groupId} fileImg={picSplit}/>}
 
                         />
                         </div>}

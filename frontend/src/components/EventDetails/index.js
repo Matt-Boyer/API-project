@@ -50,7 +50,6 @@ export default function EventDetails() {
 
             </div>
             <div>
-
                 <div id="divholdingeverythingeventsdetailspage">
                     <div id="groupprevieweventsdetails">
                         <div>

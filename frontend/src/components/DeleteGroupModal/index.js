@@ -6,7 +6,7 @@ import { useState } from "react"
 
 import { useHistory } from "react-router-dom";
 
-export default function DeleteGroupModal ({groupId}) {
+export default function DeleteGroupModal ({groupId, fileImg}) {
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -14,7 +14,7 @@ export default function DeleteGroupModal ({groupId}) {
     const {closeModal} = useModal()
 
     const deleteGroup = async() => {
-        const err = await dispatch(thunkDeleteGroup(groupId))
+        const err = await dispatch(thunkDeleteGroup(groupId, fileImg))
         setErrors(err)
     }
 
