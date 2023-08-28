@@ -3,6 +3,27 @@ const router = express.Router();
 const {requireAuth} = require('../../utils/auth');
 const {Attendance, EventImage,Group, Membership, GroupImage,User,Venue, Sequelize,Event} = require('../../db/models');
 const Op = Sequelize.Op;
+const AWS = require("aws-sdk");
+const multer = require("multer");
+// const client = new S3Client(config);
+// const config = require("../config");
+const { S3Client, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+// const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
+const s3 = new S3Client({ region: "us-west-1" });
+
+const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
+
+const deleteS3Obj = async (key) => {
+    const command = new DeleteObjectCommand({
+      Bucket: "firstbucketforgamenight",
+      Key: key,
+    });
+    try {
+      const response = await s3.send(command);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
 router.get('/', async (req,res) => {
     let arr = [];
@@ -167,12 +188,18 @@ router.post('/', requireAuth, async(req,res) =>   {
         state
     });
     res.status(201);
+    // console.log('--------------spot-')
     return res.json(group)
 });
 
-router.post('/:groupId/images', requireAuth, async(req, res) =>   {
+router.post('/:groupId/images/:fileImg', singleMulterUpload("image"), requireAuth, async(req, res) =>   {
+    let s3Key = req.params.fileImg
+    s3Key = 'public/'+s3Key
     const groupId = parseInt(req.params.groupId);
     const {url, preview} = req.body;
+    const profileImageUrl = req.file ?
+    await singleFileUpload({ file: req.file, public: true }) :
+    null;
     const group = await Group.findByPk(groupId);
     if (!group) {
         res.status(404);
@@ -184,14 +211,26 @@ router.post('/:groupId/images', requireAuth, async(req, res) =>   {
     }
     const image = await GroupImage.create({
         groupId,
-        url,
-        preview
+        url :profileImageUrl,
+        preview : true
     })
     let pojo = image.toJSON();
     delete pojo.createdAt,
     delete pojo.updatedAt,
     delete pojo.groupId
-    return res.json(pojo)
+
+
+        try {
+            const deleteCommand = new DeleteObjectCommand({ Bucket: 'firstbucketforgamenight', Key: s3Key });
+            await s3.send(deleteCommand);
+            return res.json({ message: `${groupId}` });
+        } catch (error) {
+            // console.error("Error deleting S3 object:", error);
+            res.status(500);
+            return res.json({ message: "Internal Server Error" });
+        }
+
+        return res.json(pojo)
 });
 
 router.put('/:groupId', requireAuth, async(req,res) =>  {
@@ -224,6 +263,7 @@ router.put('/:groupId', requireAuth, async(req,res) =>  {
 })
 
 router.delete('/:groupId', requireAuth, async(req, res) =>     {
+    const s3Key = req.header('FileImg')
     const userId = req.user.id;
     const groupId = parseInt(req.params.groupId);
     let group = await Group.findByPk(groupId);
@@ -236,7 +276,15 @@ router.delete('/:groupId', requireAuth, async(req, res) =>     {
         return res.json({message:"Forbidden"})
     };
     await group.destroy();
-    return res.json({message: "Successfully deleted"})
+    try {
+        const deleteCommand = new DeleteObjectCommand({ Bucket: 'firstbucketforgamenight', Key: s3Key });
+        await s3.send(deleteCommand);
+        return res.json({ message: `${groupId}` });
+    } catch (error) {
+        // console.error("Error deleting S3 object:", error);
+        res.status(500);
+        return res.json({ message: "Internal Server Error" });
+    }
 })
 
 router.get('/:groupId/venues', requireAuth, async (req,res) =>  {

@@ -25,7 +25,7 @@ router.delete('/:imageId', requireAuth, async(req,res) =>   {
         res.json({message:'Forbidden'})
     }
     await groupImage.destroy()
-    res.json({message:"Successfully deleted"})
+    res.json({message:`${imageId}`})
 })
 
 module.exports = router;
