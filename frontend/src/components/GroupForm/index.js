@@ -52,10 +52,10 @@ export default function GroupForm() {
     return (
         <div id="entiredivforcreategroupform">
             <div>
-                <h4>Start New Group</h4>
+                <h2>Start New Group</h2>
                 <h2>We'll walk you through a few steps to build your local community</h2>
             </div>
-            <hr />
+            <hr className="hrgroupform" />
             <div>
                 <h2>First, set your group's location.</h2>
                 <h4>Meetup groups meet locally, in person and online. We'll connect you with people</h4>
@@ -79,7 +79,7 @@ export default function GroupForm() {
                 ></input>
                 <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.state : ''}</div>
             </div>
-            <hr />
+            <hr className="hrgroupform" />
             <div>
                 <h2>What will your group's name be?</h2>
                 <h4>Choose a name that will give people a clear idea of what the group is about. </h4>
@@ -94,7 +94,7 @@ export default function GroupForm() {
                     }}
                 ></input>
                 <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.name : ''}</div>
-                <hr />
+                <hr className="hrgroupform" />
                 <h2>Now describe what your group will be about</h2>
                 <h4>People will see this when we promote your group, but you'll be able to add to it later, too.</h4>
                 <h4>1. What's the purpose of the group?</h4>
@@ -111,7 +111,7 @@ export default function GroupForm() {
                     }}
                 ></textarea>
                 <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.about : ''}</div>
-                <hr />
+                <hr className="hrgroupform" />
                 <h2>Final steps...</h2>
                 <h4>Is this an in person or online group?</h4>
 
@@ -152,7 +152,7 @@ export default function GroupForm() {
                     // value={imageUrl}
                     onChange={updateFile}
                 ></input>
-                <hr />
+                <hr className="hrgroupform" />
                 <button
                     id="creategroupbuttoncreatgroup"
                     onClick={(e) => {

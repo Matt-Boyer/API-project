@@ -22,6 +22,15 @@
     width: 100%;
 }
 
+#buttonupdateevent {
+    color: white;
+    background-color: gray;
+    box-shadow: 3px 3px 5px black;
+    height: 28px;
+    cursor: pointer;
+    width: max-content;
+}
+
 #navlinkandeventnameeventdetails {
     /* width: 1170px; */
     margin-top: 47px;
@@ -74,6 +83,7 @@
 #tooomanydivs {
     display: flex;
     gap: 14px;
+    cursor: pointer;
 }
 
 .fa-clock {
@@ -147,6 +157,11 @@
 }
 
 #divholdingdeleteforeventdetails {
-    margin-left: 63px;
+    margin-left: 4px;
     margin-top: 6px;
+}
+
+#innerdivupdatedeleteeventbuttons {
+    display: flex;
+    gap: 11px;
 }

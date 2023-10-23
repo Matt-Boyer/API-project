@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { thunkAddImageEvent, thunkCreateEvent } from "../../store/events"
+import { thunkAddImageEvent, thunkCreateEvent, thunkEventDetails } from "../../store/events"
 import { useParams } from 'react-router-dom'
 import { thunkGetDetailsGroup } from "../../store/groups"
 import { useHistory } from "react-router-dom"
-import './eventform.css'
+import './eventeditform.css'
 
-export default function EventForm() {
+export default function EventEditForm() {
     // const [venueId, setVenueId] = useState(1)
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -20,18 +20,30 @@ export default function EventForm() {
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch()
     const history = useHistory()
-    const { groupId } = useParams()
+    const { groupId, eventId } = useParams()
 
     useEffect(() => {
         const err = async () => {
             const err = await dispatch(thunkGetDetailsGroup(groupId))
+            const err1 = await dispatch(thunkEventDetails(eventId))
             // setErrors(err)
         }
         err()
     }, [])
 
+    const event = useSelector(state => state.events.singleEvent)
     const group = useSelector(state => state.groups.singleGroup)
-    
+
+    useEffect(() => {
+        if (event.name) { // Check if group data is available
+            setName(event.name ? event.name : ''); // Set initial values based on group data
+            setType(event.type ? event.type : '');
+            setPrice(event.price ? event.price : '');
+            setStartDate(event.startDate ? event.startDate : '');
+            setEndDate(event.endDate ? event.endDate : '');
+            setDescription(event.description ? event.description: '')
+        }
+    }, [event]);
 
     const onSubmit = async () => {
         // setErrors({})
@@ -61,7 +73,7 @@ export default function EventForm() {
         <div id="divholdingeverythingcreateevent">
             <div>
 
-                <h2>Create an event for {group.name}</h2>
+                <h2>Update event for {group.name}</h2>
                 <h4 className="allh4tagsaboveinputscreateevent">What is the name of your event?</h4>
                 <input type="text"
                     placeholder="Event Name"
@@ -127,7 +139,7 @@ export default function EventForm() {
                 ></input>
                 <div className="errormessagescreateevent">{Object.values(errors).length > 0 ? errors.endDate : ''}</div>
                 <hr className="hreventforms" />
-                <h4 className="allh4tagsaboveinputscreateevent">Please add in image for your event below:</h4>
+                <h4 className="allh4tagsaboveinputscreateevent">Update the image for your event below:</h4>
                 <input type="file"
                     placeholder="Image Url"
                     // value={imageUrl}
@@ -159,7 +171,7 @@ export default function EventForm() {
                     onClick={(e) => {
                         onSubmit()
                     }}
-                >Create Event</button>
+                >Update Event</button>
             </div>
         </div>
     )

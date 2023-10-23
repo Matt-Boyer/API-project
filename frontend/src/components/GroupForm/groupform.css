@@ -21,6 +21,15 @@
 }
 
 #entiredivforcreategroupform {
-    margin-left: 220px;
-    margin-right: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: auto;
+    width: -moz-fit-content;
+    width: fit-content;
+    min-width: 412px;
+}
+
+.hrgroupform {
+    width: -webkit-fill-available;;
 }
