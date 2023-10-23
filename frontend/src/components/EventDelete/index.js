@@ -7,7 +7,6 @@ export default function EventDelete () {
     const dispatch = useDispatch()
     const {eventId} = useParams()
     const [errors, setErrors] = useState({})
-    console.log('this is eventid',eventId)
 
     const deleteEvent = async() => {
         const err = await dispatch(thunkDeleteEvent(eventId))

@@ -65,7 +65,6 @@ export const thunkDeleteImage = (imageId) => async (dispatch) => {
 }
 
 export const thunkAddImage = (image, groupId, fileImg) => async (dispatch) => {
-    console.log('---fileimg---',fileImg)
     try {
         const formData = new FormData();
         if (image) formData.append("image", image);

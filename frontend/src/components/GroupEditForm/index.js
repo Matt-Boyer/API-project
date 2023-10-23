@@ -199,7 +199,7 @@ export default function GroupEditForm () {
                     </option>
                 </select>
                 <div className="errormessagescreategroup">{Object.values(errors).length > 0 ? errors.private : ''}</div>
-                <h4>Please add an image url for your group below:</h4>
+                <h4>Update the image for your group below:</h4>
                 <input type="file"
                     placeholder="Image Url"
                     // value={imageUrl}

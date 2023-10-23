@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { thunkEventDetails } from "../../store/events"
 import { NavLink } from "react-router-dom"
 import { thunkGetDetailsGroup } from "../../store/groups"
@@ -13,6 +13,7 @@ export default function EventDetails() {
     const dispatch = useDispatch()
     const { eventId } = useParams()
     const { groupId } = useParams()
+    const history = useHistory()
     const event = useSelector(state => state.events.singleEvent)
     const group = useSelector(state => state.groups.singleGroup)
     const user = useSelector(state => state.session.user)
@@ -57,7 +58,9 @@ export default function EventDetails() {
                         </div>
                         <div id="groupprevieweventsdetails">
                             <div id="groupdetailstoprightdivpreview">
-                                <div id="tooomanydivs">
+                                <div id="tooomanydivs"
+                                onClick={() => history.push(`/groupdetails/${groupId}`)}
+                                >
                                     <div>
                                         <img id='imagegroupeventdetails' src={(Object.values(group).length ? (group.GroupImages[0]) : false) ? (group.GroupImages[0].url === null ? "https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg" : `${group.GroupImages[0].url}`) : "https://t3.ftcdn.net/jpg/00/36/94/26/360_F_36942622_9SUXpSuE5JlfxLFKB1jHu5Z07eVIWQ2W.jpg"} alt="preview of group" />
                                     </div>
@@ -93,10 +96,16 @@ export default function EventDetails() {
                                         </div>
                                         <div id="divholdingdeleteforeventdetails">
                                             {(user ? user.id : Infinity) !== group.Organizer.id ? '' :
+                                            <div id="innerdivupdatedeleteeventbuttons">
+                                                <button id="buttonupdateevent"
+                                                onClick={() => history.push(`/events/edit/${groupId}/${eventId}`)}
+                                                >Update</button>
                                                 <OpenDeleteButton
                                                     buttonText='Delete'
                                                     modalComponent={<DeleteEventModal eventId={eventId} groupId={groupId} />}
-                                                />}
+                                                />
+                                                </div>
+                                                }
                                         </div>
                                     </div>
                                 </div>

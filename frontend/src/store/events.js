@@ -6,6 +6,12 @@ const EVENT_DETAILS = 'events/EVENT_DETAILS'
 const CREATE_EVENT = 'events/CREATE_EVENT'
 const DELETE_EVENT = 'events/DELETE_EVENT'
 const ADD_IMAGE_EVENT = 'events/ADD_IMAGE'
+const EDIT_EVENT = 'events/EDIT_EVENT'
+
+const editEvent = (eventId) => ({
+    type: EDIT_EVENT,
+    eventId
+})
 
 const addImageEvent = (eventId) => ({
     type: ADD_IMAGE_EVENT,
@@ -37,12 +43,32 @@ const getEventsGroup = (events) => ({
     events
 })
 
-export const thunkAddImageEvent = (image, eventId) => async (dispatch) => {
+export const thunkEditEvent = (eventId, data) => async (dispatch) => {
     try {
-        const response = await csrfFetch(`/api/events/${eventId}/images`, {
-            method:'POST',
+        const response = await csrfFetch(`/api/events/${eventId}`, {
+            method:'PUT',
             headers:{"Content-Type":"application/json"},
-            body:JSON.stringify(image)
+            body:JSON.stringify(data)
+        })
+        if (response.ok)    {
+            const event = await response.json()
+            dispatch(editEvent(event))
+            return event
+        }
+    } catch (error) {
+        const err = await error.json()
+        // console.log("thisisthunkerror", err)
+        return {errors:err}
+    }
+}
+
+export const thunkAddImageEvent = (image, eventId, fileImg) => async (dispatch) => {
+    try {
+        const formData = new FormData();
+        if (image) formData.append("image", image);
+        const response = await csrfFetch(`/api/events/${eventId}/images/${fileImg}`, {
+            method:'POST',
+            body: formData
         })
         if (response.ok)    {
             const group = await response.json()
@@ -74,7 +100,6 @@ export const thunkDeleteEvent = (eventId) => async (dispatch) => {
 }
 
 export const thunkCreateEvent = (groupId,data) => async (dispatch) => {
-    console.log('this is data think', data)
     try {
         const response = await csrfFetch(`/api/groups/${groupId}/events`, {
             method:'POST',
@@ -151,7 +176,7 @@ const eventsReducer = (state = initialStore, action) => {
         }
         case DELETE_EVENT: {
             const newState = {...state, allEvents:{...state.allEvents}}
-            delete newState.allEvents[action.groupId]
+            delete newState.allEvents[action.eventId.message]
             return newState
         }
         case GET_ALL_EVENTS: {

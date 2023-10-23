@@ -3,6 +3,11 @@ const router = express.Router();
 const {requireAuth} = require('../../utils/auth');
 const {EventImage,Attendance, Group, Membership, GroupImage,User,Venue, Sequelize, Event} = require('../../db/models');
 const Op = Sequelize.Op;
+const AWS = require("aws-sdk");
+const multer = require("multer");
+const { S3Client, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const s3 = new S3Client({ region: "us-west-1" });
+const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 
 let validateParams = (page,size,name,type,startDate)  =>  {
     size = parseInt(size)
@@ -161,10 +166,15 @@ const validateEvent = async (venueId,name,type,capacity,price,description,startD
     }
 }
 
-router.post('/:eventId/images', requireAuth, async (req,res) => {
+router.post('/:eventId/images/:fileImg', singleMulterUpload("image"),requireAuth, async (req,res) => {
+    let s3Key = req.params.fileImg
+    s3Key = 'public/'+ s3Key
     const {url, preview} = req.body;
     const eventId = parseInt(req.params.eventId);
     const userId = req.user.id;
+    const profileImageUrl = req.file ?
+    await singleFileUpload({ file: req.file, public: true }) :
+    null;
     const event = await Event.findByPk(eventId)
     if (!event)   {
         res.status(404);
@@ -187,14 +197,23 @@ router.post('/:eventId/images', requireAuth, async (req,res) => {
     if (userId === group.organizerId || status === 'Co-host' || (attendee && attendee.status === 'Attending'))    {
         let image = await EventImage.create({
             eventId,
-            url,
-            preview
+            url : profileImageUrl,
+            preview : true
         })
         await image.save()
         let pojo = image.toJSON()
         delete pojo.createdAt;
         delete pojo.updatedAt
         res.json(pojo)
+    }
+    try {
+        const deleteCommand = new DeleteObjectCommand({ Bucket: 'firstbucketforgamenight', Key: s3Key });
+        await s3.send(deleteCommand);
+        return res.json({ message: `${eventId}` });
+    } catch (error) {
+        // console.error("Error deleting S3 object:", error);
+        res.status(500);
+        return res.json({ message: "Internal Server Error" });
     }
 })
 
@@ -237,12 +256,14 @@ router.put('/:eventId', requireAuth, async(req,res) =>  {
     if (startDate)  {event.startDate = startDate}
     if (endDate)    {event.endDate = endDate}
     await event.save()
-    res.json(event)
+    return res.json(event)
 })
 
 router.delete('/:eventId', requireAuth, async(req,res) =>   {
     const userId = req.user.id;
     const eventId = parseInt(req.params.eventId);
+    let s3Key = req.params.fileImg
+    s3Key = 'public/'+ s3Key
     const event = await Event.findByPk(eventId)
     if (!event)   {
         res.status(404);
@@ -261,7 +282,16 @@ router.delete('/:eventId', requireAuth, async(req,res) =>   {
         return res.json({message:"Forbidden"})
     }
     await event.destroy()
-    res.json({message: "Successfully deleted"})
+    try {
+        const deleteCommand = new DeleteObjectCommand({ Bucket: 'firstbucketforgamenight', Key: s3Key });
+        await s3.send(deleteCommand);
+
+    } catch (error) {
+        // console.error("Error deleting S3 object:", error);
+        res.status(500);
+        return res.json({ message: "Internal Server Error" });
+    }
+    return res.json({message: `${eventId}`})
 })
 
 router.get('/:eventId/attendees', async(req,res) => {

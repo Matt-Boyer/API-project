@@ -13,17 +13,17 @@ const s3 = new S3Client({ region: "us-west-1" });
 
 const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 
-const deleteS3Obj = async (key) => {
-    const command = new DeleteObjectCommand({
-      Bucket: "firstbucketforgamenight",
-      Key: key,
-    });
-    try {
-      const response = await s3.send(command);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+// const deleteS3Obj = async (key) => {
+//     const command = new DeleteObjectCommand({
+//       Bucket: "firstbucketforgamenight",
+//       Key: key,
+//     });
+//     try {
+//       const response = await s3.send(command);
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   };
 
 router.get('/', async (req,res) => {
     let arr = [];
@@ -194,7 +194,7 @@ router.post('/', requireAuth, async(req,res) =>   {
 
 router.post('/:groupId/images/:fileImg', singleMulterUpload("image"), requireAuth, async(req, res) =>   {
     let s3Key = req.params.fileImg
-    s3Key = 'public/'+s3Key
+    s3Key = 'public/'+ s3Key
     const groupId = parseInt(req.params.groupId);
     const {url, preview} = req.body;
     const profileImageUrl = req.file ?
@@ -469,7 +469,7 @@ router.post('/:groupId/events', requireAuth, async(req,res) =>   {
     const userId = req.user.id;
     const groupId = parseInt(req.params.groupId);
     const {venueId,name,type,capacity,price,description,startDate,endDate} = req.body;
-    console.log('venue id' , venueId, '   namee  ', name)
+    console.log('-------------------------', startDate)
     let error = await validateEvent(venueId,name,type,capacity,price,description,startDate,endDate);
     const group = await Group.findByPk(groupId,{
         include: [{
@@ -498,7 +498,7 @@ router.post('/:groupId/events', requireAuth, async(req,res) =>   {
     let pojo = event.toJSON()
     delete pojo.createdAt;
     delete pojo.updatedAt
-    res.json(pojo)
+    return res.json(pojo)
 })
 
 router.get('/:groupId/members', async(req,res) =>   {
@@ -616,7 +616,7 @@ router.put('/:groupId/membership', requireAuth, async(req,res) =>   {
         return res.json(pojo)
     }
     res.status(403)
-    res.json({message:'Forbidden'})
+    return res.json({message:'Forbidden'})
 })
 
 router.delete('/:groupId/membership', requireAuth, async(req,res) =>    {
@@ -647,7 +647,7 @@ router.delete('/:groupId/membership', requireAuth, async(req,res) =>    {
         return res.json({message:"Membership does not exist for this User"})
     }
     await membership.destroy()
-    res.json({message:"Successfully deleted membership from group"})
+    return res.json({message:"Successfully deleted membership from group"})
 })
 
 module.exports = router;
